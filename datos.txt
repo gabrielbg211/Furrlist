@@ -1,0 +1,12 @@
+Carrera: Diseño multimedial
+Materia: Desarrollo de aplicaciones multiplataformas
+Año: 2021
+Cuatrimestre: 5to cuatrimestre
+Comisión: A
+Turno: Tarde
+Apellido y nombre: Biaggini Abril
+Apellido y nombre: Fandos Jimena Belén
+Apellido y nombre: Hernaez Ludmila
+Docente: Toyos Omar
+Entrega: 2do parcial
+Link: https://wizard-world.000webhostapp.com/

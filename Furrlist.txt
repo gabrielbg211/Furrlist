@@ -1,0 +1,8 @@
+La aplicación es una lista de libros que el usuario desea.
+El usuario debe ir a "Añadir nuevo" desde el spinner menu, donde deberá completar el título del libro y el autor, con posibilidad de agregar la sinopsis del mismo.
+Una vez guardado, el mismo le aparecerá en la vista principal/home de la app.
+Cuenta con 2 pages y un pop-up.
+1)Pagina home, donde aparecen los libros agregados.
+2)Pagina añadir nuevo, donde aparece un formulario, titulo (obligatorio), autor(obligatorio), sinopsis (opcional), boton de guardado.
+3)Pop-up con la informacion del grupo.
+Tipo de menu: Spinner Menu.

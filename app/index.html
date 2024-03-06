@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Furrlist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="jqm/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="jqm/temas.min.css">
+    <link rel="stylesheet" href="estilo.css">
+    <script src="jqm/jquery-1.12.3.min.js"></script>
+    <script src="jqm/jquery.mobile-1.4.5.js"></script>
+</head>
+
+<body>
+    <div data-role="page" id="home">
+        <div data-role="header">
+            <a href="#submenu" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left" data-rel="open">☰</a>
+            <h1>Mis libros</h1>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div style="text-align: center;">
+                        <a href="#" id="a" data-icon="heart"><img src="img/boton-luna.png" id="a" alt="Van"></a>
+
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div style="text-align: center;">
+                        <a href="#" id="b" data-icon="star"><img src="img/boton-sol.png" id="b" alt="Van"></a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="main" class="ui-content">
+
+            <div id="libros">
+            </div>
+
+        </div>
+
+        <div id="submenu" data-role="panel" data-display="push">
+            <div style="margin-bottom:40px;">
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
+            </div>
+            <ul data-role="listview">
+                <li><a href="#home" data-transition="slide">Inicio</a></li>
+                <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
+                <li><a href="#info" data-transition="slide">Nosotras</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div data-role="page" id="info">
+        <div data-role="header">
+            <a href="#sub" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left" data-rel="open">☰</a>
+            <h1>Integrantes</h1>
+        </div>
+        <div role="main" class="ui-content" style="text-align: center">
+            <h2>Abril Biaggini, Belen Fandos y Ludmila Hernaez</h2>
+            <h3>Desarrollo de Apps Multiplataforma</h3>
+            <p>Diseño Multimedial - Turno Tarde - 5° A</p>
+            <p>App de muestra con fines académicos.</p>
+            <div class="nosotras">
+                <img src="img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
+                <img src="img/belen.jpg" alt="Belén Fandos" class="img-fluid">
+                <img src="img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
+            </div>
+        </div>
+        <div id="sub" data-role="panel" data-display="push">
+            <div style="margin-bottom:40px;">
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
+            </div>
+            <ul data-role="listview">
+                <li><a href="#home" data-transition="slide">Inicio</a></li>
+                <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
+                <li><a href="#info" data-transition="slide">Nosotras</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div data-role="page" id="agregar">
+        <div data-role="header">
+            <a href="#menu" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left" data-rel="open">☰</a>
+            <h1>Agregar libro</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+
+            <form>
+                <input type="text" id="titulo" required placeholder="Título">
+                <input type="text" id="autor" required placeholder="Autor">
+                <input type="text" id="sinopsis" required placeholder="Sinopsis">
+
+                <div style="text-align: center;"><a href="#" data-role="button" data-inline="true" data-rel="back"> cancelar</a>
+
+                    <input type="submit" value="guardar" data-inline="true"></div>
+            </form>
+        </div>
+        <div id="menu" data-role="panel" data-display="push">
+            <div style="margin-bottom:40px;">
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
+            </div>
+            <ul data-role="listview">
+                <li><a href="#home" data-transition="slide">Inicio</a></li>
+                <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
+                <li><a href="#info" data-transition="slide">Nosotras</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div data-role="page" id="modificar">
+        <div data-role="header">
+            <h1>Modificar libro</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+
+            <form>
+                <input type="text" id="modifica_titulo" required placeholder="Título">
+                <input type="text" id="modifica_autor" required placeholder="Autor">
+                <input type="text" id="modifica_sinopsis" required placeholder="Sinopsis">
+
+                <div style="text-align: center;"><a href="#" data-role="button" data-inline="true" data-rel="back"> cancelar</a>
+
+                    <input type="submit" value="guardar" data-inline="true"></div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $('#agregar form').on('submit', function() {
+            var titulo = $('#titulo').val();
+            var autor = $('#autor').val();
+            var sinopsis = $('#sinopsis').val();
+            var libro = $('<div></div>');
+            libro.attr('class', "libro")
+                .append(
+                    '<a href="#" class="edit"><img src="jqm/images/icons-png/edit-white.png" alt="eliminar"></a>'
+                )
+                .append(
+                    '<a href="#" class="delete"><img src="jqm/images/icons-png/delete-white.png" alt="eliminar"></a>'
+                )
+                .append('<h3>' + titulo + '</h3>')
+                .append('<h4>' + autor + '</h4>')
+                .append('<p>' + sinopsis + '</p>');
+            $('#libros').prepend(libro);
+
+            guardarLibros();
+
+            $.mobile.navigate('#home');
+            return false;
+        });
+
+        $(document).on("pagebeforeshow", "#agregar", function() {
+            $('form')[0].reset();
+        });
+
+        $('#libros').on("click", ".libro .delete", function() {
+            var eliminar_libro = confirm("¿Estás seguro que querés eliminar el libro?");
+            if (eliminar_libro) {
+                $(this).parent().remove();
+
+                guardarLibros();
+            }
+        });
+
+        $('#libros').on("click", ".libro", function() {
+            if ($(this).next().next().next().attr("data-cumplido") != "si") {
+                $(this).parent().css({
+                    color: "white"
+                });
+                $(this).next().next().next().attr("data-cumplido", "si");
+
+
+                guardarLibros();
+
+            } else {
+                $(this).parent().css({
+                    color: "white"
+                });
+                $(this).next().next().next().removeAttr("data-cumplido");
+
+                guardarLibros();
+            }
+        });
+
+        $('#libros').on("click", ".libro .edit", function() {
+            var titulo_actual = $(this).parent().children("h3").text();
+            var autor_actual = $(this).parent().children("h4").text();
+            var sinopsis_actual = $(this).parent().children("p").text();
+            $('#modifica_titulo').val(titulo_actual);
+            $('#modifica_autor').val(autor_actual);
+            $('#modifica_sinopsis').val(sinopsis_actual);
+            $(this).parent().attr("data-modificando", "este");
+            $.mobile.navigate('#modificar');
+        });
+
+        $('#modificar form').on("submit", function() {
+            var titulo_modificado = $('#modifica_titulo').val();
+            var autor_modificado = $('#modifica_autor').val();
+            var sinopsis_modificado = $('#modifica_sinopsis').val();
+            var modificando = $('#libros').find("[data-modificando]");
+            modificando.children('h3').text(titulo_modificado);
+            modificando.children('h4').text(autor_modificado);
+            modificando.children('p').text(sinopsis_modificado);
+            modificando.removeAttr("data-modificando");
+
+            guardarLibros();
+
+            $.mobile.navigate("#home");
+            return false;
+        });
+
+        $('#home').on("pagebeforeshow", function() {
+            var modificando = $('#libros').find("[data-modificando]");
+            modificando.removeAttr("data-modificando");
+        });
+
+        function guardarLibros() {
+
+            var libros_actuales = new Array();
+
+            $('#libros div').each(function() {
+                libros_actuales.push($(this).html());
+            });
+
+            var actuales_json = JSON.stringify(libros_actuales);
+            localStorage.setItem("libros", actuales_json);
+        }
+
+        $(document).on("ready", function() {
+
+            var recuperados_json = localStorage.getItem("libros");
+
+            if (recuperados_json != null &&
+                recuperados_json != undefined &&
+                recuperados_json != "") {
+
+                var recuperados_array = JSON.parse(recuperados_json);
+
+                $.each(recuperados_array, function(indice, valor) {
+
+                    var libro = $('<div></div>');
+                    libro.attr('class', "libro")
+                        .append(valor);
+
+                    if (libro.children("h3").attr("data-cumplido") == "si") {
+
+                        libro.css({
+                            color: "white"
+                        });
+                    }
+
+                    $('#libros').append(libro);
+                });
+
+            }
+        });
+    </script>
+
+    <script>
+        $('#a').on("click", function() {
+            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-b")
+                .addClass("ui-page-theme-a");
+
+
+            localStorage.setItem("tema", "a");
+        });
+
+        $('#b').on("click", function() {
+            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a")
+                .addClass("ui-page-theme-b");
+
+            localStorage.setItem("tema", "b");
+        });
+
+        $(document).on("ready", function() {
+            var tema_guardado = localStorage.getItem("tema");
+            if (tema_guardado != null &&
+                tema_guardado != undefined &&
+                tema_guardado != '') {
+                $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
