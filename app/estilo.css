@@ -34,3 +34,8 @@
     top: 20px;
     right: 20px;
 }
+
+/* Estilo para posicionar el icono a la derecha */
+.cerrar-sesion .ui-icon {
+    float: right;
+}

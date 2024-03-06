@@ -14,6 +14,74 @@
 </head>
 
 <body>
+    <div data-role="page" id="login">
+        <div data-role="header">
+            <h1>Login</h1>
+            <a href="#menu-login" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left"
+                data-rel="open">☰</a>
+        </div>
+        <div role="main" class="ui-content">
+            <form id="loginForm">
+                <input type="text" id="username" required placeholder="Username">
+                <input type="password" id="password" required placeholder="Password">
+                <input type="submit" value="Login">
+            </form>
+            <p>¿No tienes una cuenta? <a href="#registerPage">Regístrate</a></p>
+        </div>
+        <div id="menu-login" data-role="panel" data-display="push">
+            <div style="margin-bottom:40px;">
+                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+            </div>
+            <ul data-role="listview">
+                <li><a href="#login" data-transition="slide">Inicio de sesión</a></li>
+                <li><a href="#nosotras-login" data-transition="slide">Nosotras</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div data-role="page" id="nosotras-login">
+        <div data-role="header">
+            <h1>Nosotras</h1>
+            <a href="#menu-nosotras-login" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left"
+                data-rel="open">☰</a>
+        </div>
+        <div role="main" class="ui-content" style="text-align: center">
+            <h2>Abril Biaggini, Belen Fandos y Ludmila Hernaez</h2>
+            <h3>Desarrollo de Apps Multiplataforma</h3>
+            <p>Diseño Multimedial - Turno Tarde - 5° A</p>
+            <p>App de muestra con fines académicos.</p>
+            <div class="nosotras-login">
+                <img src="app/img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
+                <img src="app/img/belen.jpg" alt="Belén Fandos" class="img-fluid">
+                <img src="app/img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
+            </div>
+        </div>
+        <div id="menu-nosotras-login" data-role="panel" data-display="push">
+            <div style="margin-bottom:40px;">
+                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+            </div>
+            <ul data-role="listview">
+                <li><a href="#login" data-transition="slide">Inicio de sesión</a></li>
+                <li><a href="#nosotras-login" data-transition="slide">Nosotras</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div data-role="page" id="registerPage">
+        <div data-role="header">
+            <h1>Registro</h1>
+        </div>
+        <div role="main" class="ui-content">
+            <form id="registerForm">
+                <input type="text" id="newUsername" required placeholder="New Username">
+                <input type="password" id="newPassword" required placeholder="New Password">
+                <input type="submit" value="Register">
+            </form>
+            <p>¿Ya tienes una cuenta? <a href="#login">Inicia sesión</a></p>
+        </div>
+    </div>
+    
+    <!-- desde aqui es lo de luli -->
     <div data-role="page" id="home">
         <div data-role="header">
             <a href="#submenu" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left"
@@ -50,6 +118,7 @@
                 <li><a href="#home" data-transition="slide">Inicio</a></li>
                 <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
                 <li><a href="#info" data-transition="slide">Nosotras</a></li>
+                <li><a href="#" data-role="button" data-icon="power" onclick="cerrarSesion()">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
@@ -79,6 +148,7 @@
                 <li><a href="#home" data-transition="slide">Inicio</a></li>
                 <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
                 <li><a href="#info" data-transition="slide">Nosotras</a></li>
+                <li><a href="#" data-role="button" data-icon="power" onclick="cerrarSesion()">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
@@ -112,6 +182,7 @@
                 <li><a href="#home" data-transition="slide">Inicio</a></li>
                 <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
                 <li><a href="#info" data-transition="slide">Nosotras</a></li>
+                <li><a href="#" data-role="button" data-icon="power" onclick="cerrarSesion()">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
@@ -138,29 +209,217 @@
         </div>
     </div>
 
-    <script>
-        $('#agregar form').on('submit', function () {
-            var titulo = $('#titulo').val();
-            var autor = $('#autor').val();
-            var sinopsis = $('#sinopsis').val();
-            var libro = $('<div></div>');
-            libro.attr('class', "libro")
-                .append(
-                    '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="eliminar"></a>'
-                )
-                .append(
-                    '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>'
-                )
-                .append('<h3>' + titulo + '</h3>')
-                .append('<h4>' + autor + '</h4>')
-                .append('<p>' + sinopsis + '</p>');
-            $('#libros').prepend(libro);
+<script>
+    // Función para iniciar sesión
+    $("#loginForm").submit(function (e) {
+        e.preventDefault();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var users = JSON.parse(localStorage.getItem("users")) || {};
+        if (users[username] && users[username].password === password) {
+            localStorage.setItem("loggedIn", "true");
+            localStorage.setItem("loggedUser", username);
+            sesionIniciada(); // Llama a la función para indicar que se ha iniciado sesión correctamente
+            $.mobile.navigate("#home");
+        } else {
+            alert("Usuario o contraseña incorrectos.");
+        }
+    });
 
-            guardarLibros();
+    // Función para registrar un nuevo usuario
+    $("#registerForm").submit(function (e) {
+        e.preventDefault();
+        var newUsername = $("#newUsername").val();
+        var newPassword = $("#newPassword").val();
+        var users = JSON.parse(localStorage.getItem("users")) || {};
+        if (users[newUsername]) {
+            alert("El nombre de usuario ya está en uso.");
+        } else {
+            users[newUsername] = { password: newPassword, libros: [] };
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("Usuario registrado correctamente. Por favor, inicia sesión.");
+            $.mobile.navigate("#login");
+        }
+    });
 
-            $.mobile.navigate('#home');
-            return false;
+    // Función para cerrar sesión
+    function cerrarSesion() {
+        localStorage.removeItem("loggedIn");
+        localStorage.removeItem("loggedUser");
+        // Redirigir al usuario a la página de inicio de sesión
+        $.mobile.navigate("#login");
+        limpiarLibros(); // Llama a la función para limpiar el contenido de libros al cerrar sesión
+    }
+
+    // Función para limpiar el contenido de la sección de libros
+        function limpiarLibros() {
+            $('#libros').empty();
+        }
+
+    // Evento que se dispara al iniciar sesión correctamente
+    $(document).on("inicioSesionCorrecto", function () {
+        limpiarLibros();
+        cargarLibrosUsuario(); // Cargar los libros del usuario actual
+        $.mobile.navigate("#home"); // Navegar a la página de inicio después de iniciar sesión
+    });
+
+    // Función para cargar los libros del usuario actual
+    function cargarLibrosUsuario() {
+        var loggedUser = getLoggedUser();
+        var userBooks = JSON.parse(localStorage.getItem(loggedUser)) || {};
+        var libros_recuperados = userBooks["libros"] || [];
+
+        $.each(libros_recuperados, function (indice, valor) {
+            var libro = $('<div class="libro"></div>').append(valor);
+            if (libro.children("h3").attr("data-cumplido") == "si") {
+                libro.css({ color: "white" });
+            }
+            $('#libros').append(libro);
         });
+    }
+
+        // Llama a esta función cada vez que se inicia sesión correctamente
+        function sesionIniciada() {
+            $(document).trigger("inicioSesionCorrecto");
+        }
+
+        // Llama a esta función cada vez que se cierra sesión
+        function cerrarSesion() {
+            $(document).trigger("cerrarSesion");
+        }
+
+
+
+    // Función para verificar si el usuario está conectado
+    function isLoggedIn() {
+        return localStorage.getItem("loggedIn") === "true";
+    }
+
+    // Función para obtener el usuario conectado
+    function getLoggedUser() {
+        return localStorage.getItem("loggedUser");
+    }
+</script>
+
+<script>
+    // Función para verificar la sesión
+    function verificarSesion() {
+        var loggedIn = localStorage.getItem("loggedIn");
+
+        // Si no hay información de sesión, redirigir al usuario a la página de inicio de sesión
+        if (!loggedIn || loggedIn !== "true") {
+            window.location.href = "#login";
+        }
+    }
+
+    // Evento que se dispara antes de mostrar cada página
+    $(document).on("pagecontainerbeforeshow", function (event, ui) {
+        var pagina = ui.toPage[0].id;
+
+        // Verificar la sesión solo en páginas restringidas
+        if (pagina === "home" || pagina === "nosotras" || pagina === "libros" || pagina === "agregar" || pagina === "modificar") {
+            verificarSesion();
+        }
+    });
+
+    // Función para cerrar sesión
+    function cerrarSesion() {
+        localStorage.removeItem("loggedIn");
+        localStorage.removeItem("loggedUser");
+        // Redirigir al usuario a la página de inicio de sesión
+        window.location.href = "#login";
+    }
+
+    // Función para obtener el usuario conectado
+    function getLoggedUser() {
+        return localStorage.getItem("loggedUser");
+    }
+
+    // Función para verificar si el usuario está conectado
+    function isLoggedIn() {
+        return localStorage.getItem("loggedIn") === "true";
+    }
+</script>
+
+<script>
+    // Función para guardar los libros en el almacenamiento local del usuario actual
+    function guardarLibros() {
+        var loggedUser = getLoggedUser();
+        var libros_actuales = [];
+        $('#libros div').each(function () {
+            libros_actuales.push($(this).html());
+        });
+        var userBooks = JSON.parse(localStorage.getItem(loggedUser)) || {};
+        userBooks["libros"] = libros_actuales;
+        localStorage.setItem(loggedUser, JSON.stringify(userBooks));
+    }
+
+    // Evento que se dispara cuando el documento está listo
+    $(document).on("ready", function () {
+        // Recuperar los libros del almacenamiento local del usuario actual al cargar la página
+        var loggedUser = getLoggedUser();
+        var userBooks = JSON.parse(localStorage.getItem(loggedUser)) || {};
+        var libros_recuperados = userBooks["libros"] || [];
+
+        $.each(libros_recuperados, function (indice, valor) {
+            var libro = $('<div class="libro"></div>').append(valor);
+            if (libro.children("h3").attr("data-cumplido") == "si") {
+                libro.css({ color: "white" });
+            }
+            $('#libros').append(libro);
+        });
+    });
+</script>
+
+<script>
+    // Evento para cambiar el tema a "a"
+    $('#a').on("click", function () {
+        cambiarTema("a");
+    });
+
+    // Evento para cambiar el tema a "b"
+    $('#b').on("click", function () {
+        cambiarTema("b");
+    });
+
+    // Función para cambiar el tema
+    function cambiarTema(tema) {
+        $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a ui-page-theme-b").addClass("ui-page-theme-" + tema);
+        localStorage.setItem("tema", tema);
+    }
+
+    // Evento que se dispara cuando el documento está listo para establecer el tema guardado
+    $(document).on("ready", function () {
+        var tema_guardado = localStorage.getItem("tema");
+        if (tema_guardado) {
+            $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
+        }
+    });
+</script>
+
+<script>
+    $('#agregar form').on('submit', function () {
+        var titulo = $('#titulo').val();
+        var autor = $('#autor').val();
+        var sinopsis = $('#sinopsis').val();
+        var libro = $('<div></div>'); // Se crea un nuevo elemento div para cada libro
+        libro.attr('class', "libro")
+            .append(
+                '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="eliminar"></a>'
+            )
+            .append(
+                '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>'
+            )
+            .append('<h3>' + titulo + '</h3>')
+            .append('<h4>' + autor + '</h4>')
+            .append('<p>' + sinopsis + '</p>');
+        $('#libros').prepend(libro);
+
+        guardarLibros(); // Se guarda el libro en el almacenamiento local
+
+        $.mobile.navigate('#home');
+        return false;
+    });
 
         $(document).on("pagebeforeshow", "#agregar", function () {
             $('form')[0].reset();
@@ -171,29 +430,22 @@
             if (eliminar_libro) {
                 $(this).parent().remove();
 
-                guardarLibros();
-            }
-        });
+            guardarLibros(); // Se actualiza el almacenamiento local al eliminar un libro
+        }
+    });
 
         $('#libros').on("click", ".libro", function () {
-            if ($(this).next().next().next().attr("data-cumplido") != "si") {
-                $(this).parent().css({
-                    color: "white"
-                });
-                $(this).next().next().next().attr("data-cumplido", "si");
+        var cumplido = $(this).attr("data-cumplido");
+        if (!cumplido || cumplido === "no") {
+            $(this).css({ color: "white" });
+            $(this).attr("data-cumplido", "si");
+        } else {
+            $(this).css({ color: "black" });
+            $(this).attr("data-cumplido", "no");
+        }
 
-
-                guardarLibros();
-
-            } else {
-                $(this).parent().css({
-                    color: "white"
-                });
-                $(this).next().next().next().removeAttr("data-cumplido");
-
-                guardarLibros();
-            }
-        });
+        guardarLibros(); // Se actualiza el almacenamiento local al cambiar el estado de cumplido
+    });
 
         $('#libros').on("click", ".libro .edit", function () {
             var titulo_actual = $(this).parent().children("h3").text();
@@ -216,84 +468,18 @@
             modificando.children('p').text(sinopsis_modificado);
             modificando.removeAttr("data-modificando");
 
-            guardarLibros();
+        guardarLibros(); // Se actualiza el almacenamiento local al modificar un libro
 
-            $.mobile.navigate("#home");
-            return false;
-        });
+        $.mobile.navigate("#home");
+        return false;
+    });
 
         $('#home').on("pagebeforeshow", function () {
             var modificando = $('#libros').find("[data-modificando]");
             modificando.removeAttr("data-modificando");
         });
+</script>
 
-        function guardarLibros() {
-
-            var libros_actuales = new Array();
-
-            $('#libros div').each(function () {
-                libros_actuales.push($(this).html());
-            });
-
-            var actuales_json = JSON.stringify(libros_actuales);
-            localStorage.setItem("libros", actuales_json);
-        }
-
-        $(document).on("ready", function () {
-
-            var recuperados_json = localStorage.getItem("libros");
-
-            if (recuperados_json != null &&
-                recuperados_json != undefined &&
-                recuperados_json != "") {
-
-                var recuperados_array = JSON.parse(recuperados_json);
-
-                $.each(recuperados_array, function (indice, valor) {
-
-                    var libro = $('<div></div>');
-                    libro.attr('class', "libro")
-                        .append(valor);
-
-                    if (libro.children("h3").attr("data-cumplido") == "si") {
-
-                        libro.css({
-                            color: "white"
-                        });
-                    }
-
-                    $('#libros').append(libro);
-                });
-
-            }
-        });
-    </script>
-
-    <script>
-        $('#a').on("click", function () {
-            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-b")
-                .addClass("ui-page-theme-a");
-
-
-            localStorage.setItem("tema", "a");
-        });
-
-        $('#b').on("click", function () {
-            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a")
-                .addClass("ui-page-theme-b");
-
-            localStorage.setItem("tema", "b");
-        });
-
-        $(document).on("ready", function () {
-            var tema_guardado = localStorage.getItem("tema");
-            if (tema_guardado != null &&
-                tema_guardado != undefined &&
-                tema_guardado != '') {
-                $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
-            }
-        });
-    </script>
 
 </body>
 
