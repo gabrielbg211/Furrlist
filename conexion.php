@@ -15,25 +15,17 @@ if ($conn->connect_error) {
 }
 
 // Obtener los datos del formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Cambiar "Newusername" y "Newpassword" por "username" y "password" respectivamente
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    $username = $_GET["username"];
+    $password = $_GET["password"];
     
     // Consulta SQL para insertar un nuevo usuario en la tabla "usuarios"
     $sql = "INSERT INTO usuarios (username, password) VALUES ('$username', '$password')";
     
     if ($conn->query($sql) === TRUE) {
-        echo "Nuevo usuario registrado correctamente.";
-        
-        // Guardar la información del nuevo usuario en el localStorage
-        echo "<script>
-                var users = JSON.parse(localStorage.getItem('users')) || {};
-                users['$username'] = { password: '$password', libros: [] };
-                localStorage.setItem('users', JSON.stringify(users));
-              </script>";
+        echo "Usuario registrado correctamente en la base de datos.";
     } else {
-        echo "Error al registrar nuevo usuario: " . $conn->error;
+        echo "Error al registrar nuevo usuario en la base de datos: " . $conn->error;
     }
 }
-
