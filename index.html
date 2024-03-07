@@ -72,7 +72,7 @@
         <h1>Registro</h1>
     </div>
     <div role="main" class="ui-content">
-            <form id="registerForm" method="post" action="app/conexion.php">
+            <form id="registerForm" method="post">
                 <input type="text" id="username" name="username" required placeholder="Usuario">
                 <input type="password" id="password" name="password" required placeholder="Contraseña">
                 <input type="submit" value="Register">
@@ -228,7 +228,7 @@
                     // Enviar datos al servidor utilizando AJAX
                     $.ajax({
                         type: "POST",
-                        url: "https://furrlist-production.up.railway.app/app/conexion.php",
+                        url: "app/conexion.php",
                         data: {
                             username: newUsername,
                             password: newPassword
