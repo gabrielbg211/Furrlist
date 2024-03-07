@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Furrlist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="app/jqm/jquery.mobile-1.4.5.css">
-    <link rel="stylesheet" href="app/jqm/temas.min.css">
-    <link rel="stylesheet" href="app/estilo.css">
-    <script src="app/jqm/jquery-1.12.3.min.js"></script>
-    <script src="app/jqm/jquery.mobile-1.4.5.js"></script>
+    <link rel="stylesheet" href="jqm/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="jqm/temas.min.css">
+    <link rel="stylesheet" href="estilo.css">
+    <script src="jqm/jquery-1.12.3.min.js"></script>
+    <script src="jqm/jquery.mobile-1.4.5.js"></script>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
         </div>
         <div id="menu-login" data-role="panel" data-display="push">
             <div style="margin-bottom:40px;">
-                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
                 <li><a href="#login" data-transition="slide">Inicio de sesión</a></li>
@@ -51,14 +51,14 @@
             <p>Diseño Multimedial - Turno Tarde - 5° A</p>
             <p>App de muestra con fines académicos.</p>
             <div class="nosotras-login">
-                <img src="app/img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
-                <img src="app/img/belen.jpg" alt="Belén Fandos" class="img-fluid">
-                <img src="app/img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
+                <img src="img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
+                <img src="img/belen.jpg" alt="Belén Fandos" class="img-fluid">
+                <img src="img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
             </div>
         </div>
         <div id="menu-nosotras-login" data-role="panel" data-display="push">
             <div style="margin-bottom:40px;">
-                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
                 <li><a href="#login" data-transition="slide">Inicio de sesión</a></li>
@@ -72,7 +72,7 @@
         <h1>Registro</h1>
     </div>
     <div role="main" class="ui-content">
-            <form id="registerForm" method="post" action="app/conexion.php">
+            <form id="registerForm" method="post" action="conexion.php">
                 <input type="text" id="username" name="username" required placeholder="Usuario">
                 <input type="password" id="password" name="password" required placeholder="Contraseña">
                 <input type="submit" value="Register">
@@ -90,13 +90,13 @@
             <div class="ui-grid-a">
                 <div class="ui-block-a">
                     <div style="text-align: center;">
-                        <a href="#" id="a" data-icon="heart"><img src="app/img/boton-luna.png" id="a" alt="Van"></a>
+                        <a href="#" id="a" data-icon="heart"><img src="img/boton-luna.png" id="a" alt="Van"></a>
 
                     </div>
                 </div>
                 <div class="ui-block-b">
                     <div style="text-align: center;">
-                        <a href="#" id="b" data-icon="star"><img src="app/img/boton-sol.png" id="b" alt="Van"></a>
+                        <a href="#" id="b" data-icon="star"><img src="img/boton-sol.png" id="b" alt="Van"></a>
 
                     </div>
                 </div>
@@ -112,7 +112,7 @@
 
         <div id="submenu" data-role="panel" data-display="push">
             <div style="margin-bottom:40px;">
-                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
                 <li><a href="#home" data-transition="slide">Inicio</a></li>
@@ -135,14 +135,14 @@
             <p>Diseño Multimedial - Turno Tarde - 5° A</p>
             <p>App de muestra con fines académicos.</p>
             <div class="nosotras">
-                <img src="app/img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
-                <img src="app/img/belen.jpg" alt="Belén Fandos" class="img-fluid">
-                <img src="app/img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
+                <img src="img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
+                <img src="img/belen.jpg" alt="Belén Fandos" class="img-fluid">
+                <img src="img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
             </div>
         </div>
         <div id="sub" data-role="panel" data-display="push">
             <div style="margin-bottom:40px;">
-                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
                 <li><a href="#home" data-transition="slide">Inicio</a></li>
@@ -176,7 +176,7 @@
         </div>
         <div id="menu" data-role="panel" data-display="push">
             <div style="margin-bottom:40px;">
-                <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
+                <img src="img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
                 <li><a href="#home" data-transition="slide">Inicio</a></li>
@@ -228,7 +228,7 @@
                     // Enviar datos al servidor utilizando AJAX
                     $.ajax({
                         type: "POST",
-                        url: "app/conexion.php",
+                        url: "conexion.php",
                         data: {
                             username: newUsername,
                             password: newPassword
@@ -381,10 +381,10 @@
                 var libro = $('<div></div>');
                 libro.attr('class', "libro")
                     .append(
-                        '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="eliminar"></a>'
+                        '<a href="#" class="edit"><img src="jqm/images/icons-png/edit-white.png" alt="eliminar"></a>'
                     )
                     .append(
-                        '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>'
+                        '<a href="#" class="delete"><img src="jqm/images/icons-png/delete-white.png" alt="eliminar"></a>'
                     )
                     .append('<h3>' + titulo + '</h3>')
                     .append('<h4>' + autor + '</h4>')
