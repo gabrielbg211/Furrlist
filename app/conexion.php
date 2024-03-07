@@ -19,24 +19,27 @@ if ($conn->connect_error) {
 
 // Obtener los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Cambiar "Newusername" y "Newpassword" por "username" y "password" respectivamente
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    // Consulta SQL para insertar un nuevo usuario en la tabla "usuarios"
-    $sql = "INSERT INTO usuarios (username, password) VALUES ('$username', '$password')";
+    // Consulta SQL para verificar si el usuario ya existe
+    $check_query = "SELECT COUNT(*) AS count FROM usuarios WHERE username = '$username'";
+    $result = $conn->query($check_query);
+    $row = $result->fetch_assoc();
+    $user_count = $row['count'];
     
-    if ($conn->query($sql) === TRUE) {
-        echo "Nuevo usuario registrado correctamente.";
-        
-        // Guardar la información del nuevo usuario en el localStorage
-        echo "<script>
-                var users = JSON.parse(localStorage.getItem('users')) || {};
-                users['$username'] = { password: '$password', libros: [] };
-                localStorage.setItem('users', JSON.stringify(users));
-              </script>";
+    if ($user_count > 0) {
+        echo "El nombre de usuario ya está en uso.";
     } else {
-        echo "Error al registrar nuevo usuario: " . $conn->error;
+        // Consulta SQL para insertar un nuevo usuario en la tabla "usuarios"
+        $insert_query = "INSERT INTO usuarios (username, password) VALUES ('$username', '$password')";
+        
+        if ($conn->query($insert_query) === TRUE) {
+            echo "Nuevo usuario registrado correctamente.";
+            // Guardar la información del nuevo usuario en el localStorage...
+        } else {
+            echo "Error al registrar nuevo usuario: " . $conn->error;
+        }
     }
 }
 
