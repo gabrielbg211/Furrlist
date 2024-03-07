@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // Datos de conexión a la base de datos
 $hostname = "roundhouse.proxy.rlwy.net";
 $username = "root";
@@ -10,7 +6,6 @@ $password = "FfgBbhdC14-d3g5DDA6F5fec43cHBf3f";
 $database = "railway";
 $dbport = "21765";
 $database_url = "mysql://root:FfgBbhdC14-d3g5DDA6F5fec43cHBf3f@mysql.railway.internal:3306/railway";
-
 
 // Conexión a la base de datos
 $conn = new mysqli($hostname, $username, $password, $database, $dbport, $database_url);
@@ -39,10 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($conn->query($insert_query) === TRUE) {
             echo "Nuevo usuario registrado correctamente.";
-            // Guardar la información del nuevo usuario en el localStorage...
         } else {
             echo "Error al registrar nuevo usuario: " . $conn->error;
         }
     }
 }
-

@@ -1,3 +1,6 @@
-Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-Header set Access-Control-Allow-Headers "Content-Type"
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "http://192.168.1.10:8080"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+    Header set Access-Control-Allow-Credentials "true"
+</IfModule>
