@@ -10,33 +10,18 @@
 
 <body>
     <h2>Formulario de Registro</h2>
-    <form id="registroForm" action="../app/conexionr.php" method="POST">
-        <label for="username">Nombre de usuario:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Contraseña:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Registrarse">
+    <form action="conexionr.php" class="sign-up-form" method="POST">
+        <h2 class="title">Registrate</h2>
+        <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" name="username" />
+        </div>
+        <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" name="password" />
+        </div>
+        <input type="submit" class="btn" value="Sign up" />
     </form>
-
-    <script>
-        document.getElementById("registroForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Evitar que el formulario se envíe automáticamente
-
-            // Obtener los datos del formulario
-            var formData = new FormData(this);
-
-            // Enviar la solicitud AJAX
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", this.action, true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Mostrar la respuesta del servidor
-                    alert(xhr.responseText);
-                }
-            };
-            xhr.send(formData);
-        });
-    </script>
 </body>
 
 </html>

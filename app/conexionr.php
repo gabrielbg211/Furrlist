@@ -5,37 +5,43 @@ $username = "root";
 $password = "FfgBbhdC14-d3g5DDA6F5fec43cHBf3f";
 $database = "railway";
 $dbport = "21765";
-$database_url = "mysql://root:FfgBbhdC14-d3g5DDA6F5fec43cHBf3f@mysql.railway.internal:3306/railway";
 
 // Conexión a la base de datos
 $conn = new mysqli($hostname, $username, $password, $database, $dbport);
 
 // Verificar la conexión
-if ($conn->connect_error) {
-    die("Error al conectar con la base de datos: " . $conn->connect_error);
+if (!$conn) {
+    die("Error de conexión: " . mysqli_connect_error());
 }
 
-// Obtener los datos del formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password'])) {
-    $usuario = $_POST["username"]; // Cambiado de 'usuario' a 'username'
-    $contrasena = $_POST["password"]; // Cambiado de 'contrasena' a 'password'
+// Verificar si se enviaron datos del formulario
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    // Recuperar los datos del formulario
+    $username = $_POST['username'];
+    $password = $_POST['password'];
     
-    // Consulta SQL para verificar si el usuario ya existe
-    $check_query = "SELECT COUNT(*) AS count FROM usuarios WHERE username = '$usuario'";
-    $result = $conn->query($check_query);
-    $row = $result->fetch_assoc();
-    $user_count = $row['count'];
+    // Hashear la contraseña antes de almacenarla en la base de datos
+    $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
     
-    if ($user_count > 0) {
-        echo "El nombre de usuario ya está en uso.";
+    // Insertar los datos en la base de datos
+    $sql_insert = "INSERT INTO usuarios (username, password) VALUES ('$username', '$password_hasheada')";
+    
+    if (mysqli_query($conn, $sql_insert)) {
+        // Registro exitoso
+        $response['success'] = true;
+        $response['message'] = "Registro exitoso";
     } else {
-        // Consulta SQL para insertar un nuevo usuario en la tabla "usuarios"
-        $insert_query = "INSERT INTO usuarios (username, password) VALUES ('$usuario', '$contrasena')";
-        
-        if ($conn->query($insert_query) === TRUE) {
-            echo "Nuevo usuario registrado correctamente.";
-        } else {
-            echo "Error al registrar nuevo usuario: " . $conn->error;
-        }
+        // Error al insertar en la base de datos
+        $response['success'] = false;
+        $response['message'] = "Error al registrar usuario: " . mysqli_error($conn);
     }
+    
+    // Devolver la respuesta como JSON
+    echo json_encode($response);
+} else {
+    // Datos del formulario no recibidos
+    $response['success'] = false;
+    $response['message'] = "Error: Datos del formulario no recibidos";
+    // Devolver la respuesta como JSON
+    echo json_encode($response);
 }
