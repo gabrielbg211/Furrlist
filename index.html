@@ -208,7 +208,17 @@
             </form>
         </div>
     </div>
-
+    
+<script>
+    $(document).ready(function () {
+        // Verificar si hay datos de sesión en localStorage
+        if (localStorage.getItem("loggedIn")) {
+            console.log("La sesión está basada en localStorage.");
+        } else {
+            console.log("No hay sesión activa.");
+        }
+    });
+</script>
     <script>
         $(document).ready(function () {
             // Initialize local storage users if not exists
@@ -271,14 +281,6 @@
                 }
             });
 
-            // Function to close session
-            function cerrarSesion() {
-                localStorage.removeItem("loggedIn");
-                localStorage.removeItem("loggedUser");
-                $.mobile.navigate("#login");
-                limpiarLibros();
-            }
-
             // Function to clean books section
             function limpiarLibros() {
                 $('#libros').empty();
@@ -337,9 +339,13 @@
             function verificarSesion() {
                 var loggedIn = localStorage.getItem("loggedIn");
                 if (!loggedIn || loggedIn !== "true") {
+                    // Si no hay sesión activa, mostrar mensaje
+                    $('#libros').empty(); // Limpiar libros
+                    $('#libros').text("No hay sesión activa. Por favor inicia sesión.");
                     $.mobile.navigate("#login");
                 }
             }
+
 
             // Event triggered before showing each page
             $(document).on("pagecontainerbeforeshow", function (event, ui) {
@@ -449,6 +455,22 @@
                 cargarLibrosUsuario();
             });
         });
+    </script>
+
+    <script>
+        // Function to close session
+        function cerrarSesion() {
+            localStorage.removeItem("loggedIn");
+            localStorage.removeItem("loggedUser");
+            $.mobile.navigate("#login");
+        }
+    </script>
+    
+    <script>
+        // Function to clean books section
+        function limpiarLibros() {
+            $('#libros').empty();
+        }
     </script>
 
 </body>
