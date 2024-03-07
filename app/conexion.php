@@ -1,4 +1,15 @@
 <?php
+
+// Permitir solicitudes desde cualquier origen
+header("Access-Control-Allow-Origin: *");
+
+// Permitir los métodos GET y POST desde el origen especificado
+header("Access-Control-Allow-Methods: GET, POST");
+
+// Permitir los encabezados personalizados y las cabeceras de solicitud estándar
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
+
 // Datos de conexión a la base de datos
 $hostname = "roundhouse.proxy.rlwy.net";
 $username = "root";
