@@ -1,4 +1,7 @@
 <?php
+// Permitir solicitudes desde el origen específico
+header("Access-Control-Allow-Origin: http://192.168.1.10:8080");
+
 // Datos de conexión a la base de datos
 $hostname = "roundhouse.proxy.rlwy.net";
 $username = "root";
