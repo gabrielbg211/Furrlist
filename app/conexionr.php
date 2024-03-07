@@ -1,12 +1,4 @@
 <?php
-if(session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-
 // Datos de conexión a la base de datos
 $hostname = "roundhouse.proxy.rlwy.net";
 $username = "root";
@@ -16,7 +8,7 @@ $dbport = "21765";
 $database_url = "mysql://root:FfgBbhdC14-d3g5DDA6F5fec43cHBf3f@mysql.railway.internal:3306/railway";
 
 // Conexión a la base de datos
-$conn = new mysqli($hostname, $username, $password, $database, $dbport, $database_url);
+$conn = new mysqli($hostname, $username, $password, $database, $dbport);
 
 // Verificar la conexión
 if ($conn->connect_error) {
