@@ -21,7 +21,7 @@
                 data-rel="panel">☰</a>
         </div>
         <div role="main" class="ui-content">
-            <form id="loginForm">
+            <form id="loginForm" method="post">
                 <input type="text" id="t-username" required placeholder="Username">
                 <input type="password" id="t-password" required placeholder="Password">
                 <input type="submit" value="Login">
@@ -162,7 +162,7 @@
 
         <div role="main" class="ui-content">
 
-            <form>
+            <form id="agregarForm" method="post" action="app/save_book.php">
                 <input type="text" id="titulo" required placeholder="Título">
                 <input type="text" id="autor" required placeholder="Autor">
                 <input type="text" id="sinopsis" required placeholder="Sinopsis">
@@ -208,7 +208,65 @@
             </form>
         </div>
     </div>
-    
+
+        <script>
+            // Verificar el estado de la sesión en la base de datos
+            $.ajax({
+                type: "GET",
+                url: "app/check_session.php", // Ruta a tu script de verificación de sesión en la base de datos
+                success: function (response) {
+                    console.log("Estado de la sesión en la base de datos:", response);
+                },
+                error: function (xhr, status, error) {
+                    // Error de conexión
+                    console.error("Error al verificar la sesión en la base de datos:", error);
+                }
+            });
+
+            $(document).ready(function () {
+                // Function to log in
+                $("#loginForm").submit(function (e) {
+                    e.preventDefault();
+                    var username = $("#t-username").val();
+                    var password = $("#t-password").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "app/login.php", // Cambia esto por la ruta correcta a tu script de inicio de sesión
+                        data: {
+                            username: username,
+                            password: password
+                        },
+                        success: function (response) {
+                            if (response === "success") {
+                                // Inicio de sesión exitoso
+                                alert("Inicio de sesión exitoso con base de datos");
+                                // Establecer sesión en el almacenamiento local
+                                localStorage.setItem("loggedIn", "true");
+                                localStorage.setItem("loggedUser", username);
+                                // Disparar evento personalizado para manejar el inicio de sesión en otras partes del código
+                                $(document).trigger("inicioSesionCorrecto");
+                            } else {
+                                // Nombre de usuario o contraseña incorrectos
+                                alert("Nombre de usuario o contraseña incorrectos");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Error de conexión
+                            alert("Error de conexión: " + error);
+                        }
+                    });
+                });
+
+                // Event to handle successful login
+                $(document).on("inicioSesionCorrecto", function () {
+                    // Redirigir a la página de inicio después del inicio de sesión exitoso
+                    $.mobile.navigate("#home");
+                });
+            });
+
+            
+        </script>
+
 <script>
     $(document).ready(function () {
         // Verificar si hay datos de sesión en localStorage
@@ -263,23 +321,6 @@
                 }
             });
 
-
-
-            // Function to log in
-            $("#loginForm").submit(function (e) {
-                e.preventDefault();
-                var username = $("#t-username").val();
-                var password = $("#t-password").val();
-                var users = JSON.parse(localStorage.getItem("users")) || {};
-                if (users[username] && users[username].password === password) {
-                    localStorage.setItem("loggedIn", "true");
-                    localStorage.setItem("loggedUser", username);
-                    sesionIniciada();
-                    $.mobile.navigate("#home");
-                } else {
-                    alert("Usuario o contraseña incorrectos.");
-                }
-            });
 
             // Function to clean books section
             function limpiarLibros() {
@@ -379,6 +420,12 @@
                 }
             });
 
+            // Limpiar los campos de entrada después de enviar el formulario
+            $("#titulo").val("");
+            $("#autor").val("");
+            $("#sinopsis").val("");
+
+
             // Event to add book
             $('#agregar form').on('submit', function () {
                 var titulo = $('#titulo').val();
@@ -398,8 +445,16 @@
                 $('#libros').prepend(libro);
                 guardarLibros();
                 $.mobile.navigate('#home');
+
+                // Limpiar los campos de entrada después de enviar el formulario
+                $("#titulo").val("");
+                $("#autor").val("");
+                $("#sinopsis").val("");
+
                 return false;
             });
+
+            
 
             // Event to delete book
             $('#libros').on("click", ".libro .delete", function () {
@@ -460,9 +515,23 @@
     <script>
         // Function to close session
         function cerrarSesion() {
+            // Eliminar sesión del almacenamiento local
             localStorage.removeItem("loggedIn");
             localStorage.removeItem("loggedUser");
-            $.mobile.navigate("#login");
+
+            // Enviar solicitud al servidor para cerrar sesión en la base de datos
+            $.ajax({
+                type: "GET",
+                url: "app/logout.php", // Ruta a tu script de cerrar sesión en el servidor
+                success: function (response) {
+            // Redirigir a la página de inicio de sesión después de cerrar sesión
+                    $.mobile.navigate("#login");
+                },
+                error: function (xhr, status, error) {
+                    // Manejar errores si hay algún problema al cerrar sesión en el servidor
+                    console.error("Error al cerrar sesión en el servidor:", error);
+                }
+            });
         }
     </script>
     
@@ -471,6 +540,43 @@
         function limpiarLibros() {
             $('#libros').empty();
         }
+    </script>
+
+    <script>
+        // Function to register a new user
+            $("#agregarForm").submit(function (e) {
+                e.preventDefault();
+                var newUsername = $("#username").val();
+                var newPassword = $("#password").val();
+                var users = JSON.parse(localStorage.getItem("users")) || {};
+                if (users[newUsername]) {
+                    alert("El nombre de usuario ya está en uso.");
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "app/save_book.php",
+                        data: {
+                            titulo: $("#titulo").val(),
+                            autor: $("#autor").val(),
+                            sinopsis: $("#sinopsis").val()
+                        },
+                        success: function (response) {
+                            if (response === "success") {
+                                // Mostrar alerta de éxito si el libro se guarda en la base de datos correctamente
+                                alert("Libro guardado exitosamente en la base de datos.");
+                                // Resto del código para manejar el registro del usuario...
+                            } else {
+                                alert("Error al guardar el libro en la base de datos: " + response);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error al guardar el libro en la base de datos: " + error);
+                        }
+                    });
+                    // Resto del código para manejar el registro del usuario...
+                }
+            });
+
     </script>
 
 </body>
