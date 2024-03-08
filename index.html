@@ -74,7 +74,7 @@
         <div role="main" class="ui-content">
             <img src="app/img/logo_app.png" alt="foto" style="width:125px; display:block; margin:auto; margin-top: 20px;">
             <h1 style="text-align: center; font-size: 48px; margin-top: 20px;">Furrlist</h1>
-            <form id="registerForm" method="post" action="https://furrlist-production.up.railway.app/php/registro_usuario.php">
+            <form id="registerForm" method="post" action="php/registro_usuario.php">
                 <input type="text" id="username" name="username" required placeholder="Usuario">
                 <input type="password" id="password" name="password" required placeholder="Contraseña">
                 <input type="submit" value="Registrarse">
@@ -82,8 +82,6 @@
             <p>¿Ya tienes una cuenta? <a href="#login">Inicia sesión</a></p>
         </div>
     </div>
-
-
 
     <!-- desde aqui es lo de luli -->
     <div data-role="page" id="home">
@@ -163,16 +161,15 @@
                 data-rel="open">☰</a>
             <h1>Agregar libro</h1>
         </div>
-    
+
         <div role="main" class="ui-content">
             <div class="book-icon">
                 <i class="fas fa-book"></i>
             </div>
-            <form id="agregarForm" method="post" action="https://furrlist-production.up.railway.app/" enctype="multipart/form-data">
+            <form id="agregarForm" method="post" action="php/save_book.php">
                 <input type="text" id="titulo" name="titulo" required placeholder="Título">
                 <input type="text" id="autor" name="autor" required placeholder="Autor">
                 <input type="text" id="sinopsis" name="sinopsis" required placeholder="Sinopsis">
-                <input type="file" id="portada" name="portada" accept="image/*" required>
                 <div style="text-align: center;">
                     <a href="#" data-role="button" data-inline="true" data-rel="back">cancelar</a>
                     <input type="submit" value="guardar" data-inline="true">
@@ -194,21 +191,17 @@
         </div>
     </div>
 
-
-
     <div data-role="page" id="modificar">
         <div data-role="header">
             <h1>Modificar libro</h1>
         </div>
 
         <div role="main" class="ui-content">
-            <form id="modificarForm" method="post" action="https://furrlist-production.up.railway.app/">
+            <form id="modificarForm" method="post" action="php/update_book.php">
                 <input type="hidden" id="id_libro" name="id_libro">
                 <input type="text" id="modifica_titulo" name="titulo" required placeholder="Título">
                 <input type="text" id="modifica_autor" name="autor" required placeholder="Autor">
                 <input type="text" id="modifica_sinopsis" name="sinopsis" required placeholder="Sinopsis">
-                <input type="file" id="modifica_portada" name="portada">
-
                 <div style="text-align: center;">
                     <a href="#" data-role="button" data-inline="true" data-rel="back">Cancelar</a>
                     <input type="submit" value="Guardar" data-inline="true">
@@ -217,180 +210,199 @@
         </div>
     </div>
 
-    <!-- scripts -->
-   
-    <script>
-        $(document).ready(function () {
-            // Hacer la petición AJAX al archivo PHP
-            $.ajax({
-                url: 'https://furrlist-production.up.railway.app/php/check_session.php',
-                type: 'GET',
-                success: function (response) {
-                    // Imprimir el resultado en la consola
-                    console.log(response);
-                },
-                error: function () {
-                    console.log('Error al comprobar la sesión');
+<!-- scripts -->
+<script>
+    $(document).ready(function () {
+        // Hacer la petición AJAX al archivo PHP para verificar la sesión
+        $.ajax({
+            url: 'php/check_session.php',
+            type: 'GET',
+            dataType: 'json', // Especificar el tipo de datos esperado
+            success: function (response) {
+                // Verificar el estado de la sesión
+                if (response.status === "logged_in") {
+                    // Si la sesión está iniciada, redirigir a la página principal con la sesión iniciada
+                    window.location.href = "index.html#home";
+                } else {
+                    // Si la sesión no está iniciada, redirigir a la página de inic                              
+                    window.location.href = "index.html#login";
                 }
-            });
-        });
-
-            // Manejar el evento de envío del formulario de login
-            $('#loginForm').submit(function (e) {
-                // Prevenir el envío del formulario por defecto
-                e.preventDefault();
-
-            // Obtener los valores del formulario
-            var username = $('#t-username').val();
-            var password = $('#t-password').val();
-
-            // Hacer la petición AJAX al archivo PHP para verificar los datos de login
-            $.ajax({
-                url: 'https://furrlist-production.up.railway.app/php/login.php',
-                type: 'POST',
-                data: { username: username, password: password },
-                success: function (response) {
-                    console.log(response); 
-                    // Verificar la respuesta del servidor
-                    if (response === "success") {
-                        // Si los datos de login son correctos, mostrar alerta de usuario logeado correctamente
-                        alert("Usuario logeado correctamente");
-                        // Redirigir a la página principal con la sesión iniciada
-                        window.location.href = "index.html#home";
-                    } else {
-                        // Si los datos de login son incorrectos, mostrar alerta de datos inválidos
-                        alert("Datos inválidos");
-                    }
-                },
-                error: function () {
-                    console.log('Error al intentar iniciar sesión');
-                }
-            });
-        });
-        
-
-            $(document).ready(function () {
-                // Manejar el evento de envío del formulario
-                $('#registerForm').submit(function (e) {
-                    // Prevenir el envío del formulario por defecto
-                    e.preventDefault();
-
-                // Hacer la petición AJAX al archivo PHP
-                $.ajax({
-                    url: 'https://furrlist-production.up.railway.app/php/registro_usuario.php',
-                    type: 'POST',
-                    data: $(this).serialize(), // Serializar el formulario
-                    success: function (response) {
-                        // Mostrar una alerta con el mensaje recibido
-                        alert(response);
-
-                        // Redirigir a la página principal si el registro fue exitoso
-                        if (response === "¡Registro exitoso!") {
-                            window.location.href = "index.html#home";
-                        }
-                    },
-                    error: function () {
-                        console.log('Error al registrar el usuario');
-                    }
-                });
-            });
-        });
-</script>
-    <script>
-        $(document).ready(function () {
-            // Manejar el evento de envío del formulario de agregar libro
-            $('#agregarForm').submit(function (e) {
-                // Prevenir el envío del formulario por defecto
-                e.preventDefault();
-
-                // Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
-                var formData = new FormData(this);
-
-                // Hacer la petición AJAX al archivo PHP para agregar el libro
-                $.ajax({
-                    url: 'https://furrlist-production.up.railway.app/php/save_book.php',
-                    type: 'POST',
-                    data: formData,
-                    processData: false, // Indicar a jQuery que no procese los datos
-                    contentType: false, // Indicar a jQuery que no configure el tipo de contenido
-                    success: function (response) {
-                        // Mostrar una alerta con el mensaje recibido
-                        if (response === "success") {
-                            alert("Libro creado exitosamente");
-                            // Redireccionar a index.html#home
-                            window.location.href = 'index.html#home';
-                            // Limpiar los campos del formulario
-                            $('#titulo').val('');
-                            $('#autor').val('');
-                            $('#sinopsis').val('');
-                            $('#portada').val('');
-                        } else {
-                            alert("Error: " + response); // Mostrar el mensaje de error recibido del servidor
-                        }
-                    },
-                    error: function () {
-                        console.log('Error al agregar el libro');
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-            $(document).ready(function () {
-            // Evento que se dispara antes de mostrar la página #home
-            $(document).on("pagecontainerbeforeshow", function (event, ui) {
-                var pagina = ui.toPage[0].id;
-                if (pagina === "home") {
-                    cargarLibrosDesdeServidor(); // Llama a la función para cargar los libros desde el servidor
-                }
-            });
-
-            // Función para cargar libros desde el servidor
-            function cargarLibrosDesdeServidor() {
-                $.ajax({
-                    type: "GET",
-                    url: "https://furrlist-production.up.railway.app/php/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
-                    dataType: "json",
-                    data: { username: localStorage.getItem("loggedUser") }, // Envía el nombre de usuario del usuario actual al servidor
-                    success: function (response) {
-                        // Manejar la respuesta del servidor y mostrar los libros en la página
-                        if (response && response.length > 0) {
-                            // Limpiar libros existentes
-                            $('#libros').empty();
-                            // Agregar libros al DOM
-                            response.forEach(function (libro) {
-                                var libroHTML = '';
-                                if (libro.titulo && libro.autor && libro.sinopsis && libro.username && libro.id_libro) {
-                                    libroHTML = '<div class="libro" data-id="' + libro.id_libro + '">' +
-                                        '<img class="portada" src="' + libro.ruta_portada + '" alt="Portada del libro">' + // Utilizar la ruta de la portada directamente
-                                        '<div class="contenido">' + // Div para el contenido del libro
-                                        '<h3>' + libro.titulo + '</h3>' +
-                                        '<h4>' + libro.autor + '</h4>' +
-                                        '<p>' + libro.sinopsis + '</p>' +
-                                        '</div>' + // Cierre de contenido
-                                        '<div class="acciones">' +
-                                        '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>' +
-                                        '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
-                                        '</div>' +
-                                        '</div>';
-
-
-                                }
-                                $('#libros').append(libroHTML);
-                            });
-
-                        } else {
-                            // Manejar el caso de que no haya libros en la base de datos
-                            $('#libros').text("No hay libros disponibles para este usuario.");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        // Manejar errores de la solicitud AJAX
-                        console.error("Error al cargar libros desde el servidor:", error);
-                    }
-                });
+            },
+            error: function () {
+                console.log('Error al verificar la sesión');
             }
         });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Hacer la petición AJAX al archivo PHP
+        $.ajax({
+            url: 'php/check_session.php',
+            type: 'GET',
+            success: function (response) {
+                // Imprimir el resultado en la consola
+                console.log(response);
+            },
+            error: function () {
+                console.log('Error al comprobar la sesión');
+            }
+        });
+    });
+
+        // Manejar el evento de envío del formulario de login
+        $('#loginForm').submit(function (e) {
+            // Prevenir el envío del formulario por defecto
+            e.preventDefault();
+
+        // Obtener los valores del formulario
+        var username = $('#t-username').val();
+        var password = $('#t-password').val();
+
+        // Hacer la petición AJAX al archivo PHP para verificar los datos de login
+        $.ajax({
+            url: 'php/login.php',
+            type: 'POST',
+            data: { username: username, password: password },
+            success: function (response) {
+                // Verificar la respuesta del servidor
+                if (response === "success") {
+                    // Si los datos de login son correctos, mostrar alerta de usuario logeado correctamente
+                    alert("Usuario logeado correctamente");
+                    // Redirigir a la página principal con la sesión iniciada
+                    window.location.href = "index.html#home";
+                } else {
+                    // Si los datos de login son incorrectos, mostrar alerta de datos inválidos
+                    alert("Datos inválidos");
+                }
+            },
+            error: function () {
+                console.log('Error al intentar iniciar sesión');
+            }
+        });
+    });
+
+        $(document).ready(function () {
+            // Manejar el evento de envío del formulario
+            $('#registerForm').submit(function (e) {
+                // Prevenir el envío del formulario por defecto
+                e.preventDefault();
+
+            // Hacer la petición AJAX al archivo PHP
+            $.ajax({
+                url: 'php/registro_usuario.php',
+                type: 'POST',
+                data: $(this).serialize(), // Serializar el formulario
+                success: function (response) {
+                    // Mostrar una alerta con el mensaje recibido
+                    alert(response);
+
+                    // Redirigir a la página principal si el registro fue exitoso
+                    if (response === "¡Registro exitoso!") {
+                        window.location.href = "index.html#home";
+                    }
+                },
+                error: function () {
+                    console.log('Error al registrar el usuario');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Manejar el evento de envío del formulario de agregar libro
+        $('#agregarForm').submit(function (e) {
+            // Prevenir el envío del formulario por defecto
+            e.preventDefault();
+
+            // Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
+            var formData = new FormData(this);
+
+            // Hacer la petición AJAX al archivo PHP para agregar el libro
+            $.ajax({
+                url: 'php/save_book.php',
+                type: 'POST',
+                data: formData,
+                processData: false, // Indicar a jQuery que no procese los datos
+                contentType: false, // Indicar a jQuery que no configure el tipo de contenido
+                success: function (response) {
+                    // Mostrar una alerta con el mensaje recibido
+                    if (response === "success") {
+                        alert("Libro creado exitosamente");
+                        // Redireccionar a index.html#home
+                        window.location.href = 'index.html#home';
+                        // Limpiar los campos del formulario
+                        $('#titulo').val('');
+                        $('#autor').val('');
+                        $('#sinopsis').val('');
+                        $('#portada').val('');
+                    } else {
+                        alert("Error: " + response); // Mostrar el mensaje de error recibido del servidor
+                    }
+                },
+                error: function () {
+                    console.log('Error al agregar el libro');
+                }
+            });
+        });
+    });
+                </script>
+<script>
+    $(document).ready(function () {
+        // Evento que se dispara antes de mostrar la página #home
+        $(document).on("pagecontainerbeforeshow", function (event, ui) {
+            var pagina = ui.toPage[0].id;
+            if (pagina === "home") {
+                cargarLibrosDesdeServidor(); // Llama a la función para cargar los libros desde el servidor
+            }
+        });
+
+        // Función para cargar libros desde el servidor
+        function cargarLibrosDesdeServidor() {
+            $.ajax({
+                type: "GET",
+                url: "php/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
+                dataType: "json",
+                data: { username: localStorage.getItem("loggedUser") }, // Envía el nombre de usuario del usuario actual al servidor
+                success: function (response) {
+                    // Manejar la respuesta del servidor y mostrar los libros en la página
+                    if (response && response.length > 0) {
+                        // Limpiar libros existentes
+                        $('#libros').empty();
+                        // Agregar libros al DOM
+                        response.forEach(function (libro) {
+                            var libroHTML = '';
+                            if (libro.titulo && libro.autor && libro.sinopsis && libro.username && libro.id_libro) {
+                                libroHTML = '<div class="libro" data-id="' + libro.id_libro + '">' +
+                                    '<div class="contenido">' + // Div para el contenido del libro
+                                    '<h3>' + libro.titulo + '</h3>' +
+                                    '<h4>' + libro.autor + '</h4>' +
+                                    '<p>' + libro.sinopsis + '</p>' +
+                                    '</div>' + // Cierre de contenido
+                                    '<div class="acciones">' +
+                                    '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>' +
+                                    '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
+                                    '</div>' +
+                                    '</div>';
+
+
+                            }
+                            $('#libros').append(libroHTML);
+                        });
+
+                    } else {
+                        // Manejar el caso de que no haya libros en la base de datos
+                        $('#libros').text("No hay libros disponibles para este usuario.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Manejar errores de la solicitud AJAX
+                    console.error("Error al cargar libros desde el servidor:", error);
+                }
+            });
+        }
+    });
 
 
     // Agregar evento de clic al botón de eliminar
@@ -402,216 +414,132 @@
         if (confirm("¿Estás seguro de que quieres eliminar este libro?")) {
             // Realizar la petición AJAX para eliminar el libro
             $.ajax({
-                    url: 'https://furrlist-production.up.railway.app/php/delete_book.php',
-                    type: 'POST',
-                    data: { id_libro: libroID }, // Enviar el ID del libro al servidor
-                    success: function (response) {
-                        // Manejar la respuesta del servidor
-                        if (response === "success") {
-                            // Si el libro se eliminó correctamente, recargar la página
-                            location.reload();
-                            alert("El libro se eliminó correctamente");
-                        } else {
-                            alert("Error al eliminar el libro: " + response);
-                        }
-                    },
-                    error: function () {
-                        console.log('Error al eliminar el libro');
-                    }
-                });
-            }
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            // Manejar el envío del formulario de edición
-            $('#modificarForm').submit(function (e) {
-            // Prevenir el envío del formulario por defecto
-                e.preventDefault();
-
-                // Obtener los datos del formulario
-                var idLibro = $('#id_libro').val();
-                var titulo = $('#modifica_titulo').val();
-                var autor = $('#modifica_autor').val();
-                var sinopsis = $('#modifica_sinopsis').val();
-                var portadaFile = $('#modifica_portada')[0].files[0]; // Obtener el archivo de la portada
-
-                // Crear un objeto FormData para enviar los datos del formulario, incluida la nueva portada
-                var formData = new FormData();
-                formData.append('id_libro', idLibro);
-                formData.append('titulo', titulo);
-                formData.append('autor', autor);
-                formData.append('sinopsis', sinopsis);
-                formData.append('portada', portadaFile);
-
-                // Hacer la petición AJAX para actualizar el libro
-                $.ajax({
-                    url: 'https://furrlist-production.up.railway.app/php/update_book.php',
-                    type: 'POST',
-                    data: formData,
-                    processData: false, // Indicar a jQuery que no procese los datos
-                    contentType: false, // Indicar a jQuery que no configure el tipo de contenido
-                    success: function (response) {
-                        // Mostrar una alerta con el mensaje recibido
-                        if (response === "success") {
-                            alert("El libro se actualizó correctamente");
-                            // Redirigir a la página principal después de la actualización
-                            window.location.href = 'index.html#home';
-                        } else {
-                            alert("Error al actualizar el libro: " + response);
-                        }
-                    },
-                    error: function () {
-                        console.log('Error al enviar datos de edición del libro');
-                    }
-                });
-            });
-        });
-
-            // Definir la función para cargar los detalles del libro en el formulario de edición
-            function cargarDetallesLibro(id_libro, titulo, autor, sinopsis, ruta_portada) {
-                $("#id_libro").val(id_libro);
-                $("#modifica_titulo").val(titulo);
-                $("#modifica_autor").val(autor);
-                $("#modifica_sinopsis").val(sinopsis);
-                $("#ruta_portada_actual").val(ruta_portada); // Establecer la ruta de la portada actual
-            }
-
-
-
-
-            // Definir la función para cargar los detalles del libro en el formulario de edición
-            function cargarDetallesLibro(id_libro, titulo, autor, sinopsis, ruta_portada) {
-                // Mostrar los datos en la consola
-                console.log("ID del libro:", id_libro);
-                console.log("Título:", titulo);
-                console.log("Autor:", autor);
-                console.log("Sinopsis:", sinopsis);
-                console.log("Ruta de la portada:", ruta_portada);
-
-                // Asignar los valores a los campos del formulario
-                $("#id_libro").val(id_libro);
-                $("#modifica_titulo").val(titulo);
-                $("#modifica_autor").val(autor);
-                $("#modifica_sinopsis").val(sinopsis);
-                $("#ruta_portada_actual").val(ruta_portada); // Establecer la ruta de la portada actual
-            }
-
-                // Evento de clic para el enlace de edición
-                $(document).on("click", ".edit", function () {
-                    var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
-                    var titulo = $(this).closest(".libro").find("h3").text(); // Obtener el título del libro
-                    var autor = $(this).closest(".libro").find("h4").text(); // Obtener el autor del libro
-                    var sinopsis = $(this).closest(".libro").find("p").text(); // Obtener la sinopsis del libro
-                    var portadaNombre = $(this).closest(".libro").data("imagen_portada"); // Obtener el nombre de la imagen de portada del libro
-                    var rutaPortada = $(this).closest(".libro").data("ruta_portada"); // Obtener la ruta de la portada del libro
-
-                // Mostrar los datos en la consola del navegador
-                console.log("ID del libro seleccionado:", libroID);
-                console.log("Título:", titulo);
-                console.log("Autor:", autor);
-                console.log("Sinopsis:", sinopsis);
-                console.log("Nombre de la portada:", portadaNombre);
-                console.log("Ruta de la portada:", rutaPortada);
-
-                // Llamar a la función para cargar los detalles del libro en el formulario de edición
-                cargarDetallesLibro(libroID, titulo, autor, sinopsis, rutaPortada);
-
-                // Redirigir al formulario de edición
-                $.mobile.navigate("#modificar");
-            });
-
-
-                // Evento de clic para el enlace de edición
-                $(document).on("click", ".edit", function () {
-                    var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
-
-                    // Realizar una solicitud AJAX para obtener los detalles del libro, incluida la ruta de la portada
-                    $.ajax({
-                        url: 'https://furrlist-production.up.railway.app/php/get_book_details.php', // Ruta al script PHP que obtiene los detalles del libro desde la base de datos
-                        type: 'GET',
-                        data: { id_libro: libroID },
-                        success: function (response) {
-                            // Parsear la respuesta JSON
-                            var libro = JSON.parse(response);
-
-                            // Verificar si se obtuvieron los detalles del libro correctamente
-                            if (libro) {
-                                // Obtener los detalles del libro
-                                var titulo = libro.titulo;
-                                var autor = libro.autor;
-                                var sinopsis = libro.sinopsis;
-                                var imagen_portada = libro.imagen_portada;
-                                var ruta_portada = libro.ruta_portada;
-
-                                // Mostrar los datos en la consola
-                                console.log("ID del libro:", libroID);
-                                console.log("Título:", titulo);
-                                console.log("Autor:", autor);
-                                console.log("Sinopsis:", sinopsis);
-                                console.log("Nombre de la portada:", imagen_portada);
-                                console.log("Ruta de la portada:", ruta_portada);
-
-                                // Llamar a la función para cargar los detalles del libro en el formulario de edición
-                                cargarDetallesLibro(libroID, titulo, autor, sinopsis, ruta_portada);
-
-                                // Redirigir al formulario de edición
-                                $.mobile.navigate("#modificar");
-                            } else {
-                                console.log("Error: No se pudo obtener los detalles del libro");
-                            }
-                        },
-                        error: function () {
-                            console.log('Error al obtener detalles del libro desde la base de datos');
-                        }
-                    });
-                });
-
-</script>
-
-    <script>
-        function cerrarSesion() {
-            // Hacer la petición AJAX para cerrar la sesión
-            $.ajax({
-                url: 'https://furrlist-production.up.railway.app/php/logout.php',
-                type: 'GET',
+                url: 'php/delete_book.php',
+                type: 'POST',
+                data: { id_libro: libroID }, // Enviar el ID del libro al servidor
                 success: function (response) {
-                    // Redirigir a la página de inicio de sesión después de cerrar la sesión
-                    window.location.href = "index.html#login";
+                    // Manejar la respuesta del servidor
+                    if (response === "success") {
+                        // Si el libro se eliminó correctamente, recargar la página
+                        location.reload();
+                        alert("El libro se eliminó correctamente");
+                    } else {
+                        alert("Error al eliminar el libro: " + response);
+                    }
                 },
                 error: function () {
-                    console.log('Error al cerrar sesión');
+                    console.log('Error al eliminar el libro');
                 }
             });
-            }
-        </script>
+        }
+    });
+                </script>
 
-    <script>
-            // Event to change theme to "a"
-            $('#a').on("click", function () {
-                cambiarTema("a");
+<script>
+    $(document).ready(function () {
+        // Manejar el envío del formulario de edición
+        $('#modificarForm').submit(function (e) {
+            // Prevenir el envío del formulario por defecto
+            e.preventDefault();
+
+            // Obtener los datos del formulario
+            var idLibro = $('#id_libro').val();
+            var titulo = $('#modifica_titulo').val();
+            var autor = $('#modifica_autor').val();
+            var sinopsis = $('#modifica_sinopsis').val();
+
+            // Hacer la petición AJAX para actualizar el libro
+            $.ajax({
+                url: 'php/update_book.php',
+                type: 'POST',
+                data: { id_libro: idLibro, titulo: titulo, autor: autor, sinopsis: sinopsis },
+                success: function (response) {
+                    // Mostrar una alerta con el mensaje recibido
+                    if (response === "success") {
+                        alert("El libro se actualizó correctamente");
+                        // Redirigir a la página principal después de la actualización
+                        window.location.href = 'index.html#home';
+                    } else {
+                        alert("Error al actualizar el libro: " + response);
+                    }
+                },
+                error: function () {
+                    console.log('Error al enviar datos de edición del libro');
+                }
             });
+        });
+    });
 
-            // Event to change theme to "b"
-            $('#b').on("click", function () {
-                cambiarTema("b");
-            });
+        // Definir la función para cargar los detalles del libro en el formulario de edición
+        function cargarDetallesLibro(id_libro, titulo, autor, sinopsis) {
+            $("#id_libro").val(id_libro);
+            $("#modifica_titulo").val(titulo);
+            $("#modifica_autor").val(autor);
+            $("#modifica_sinopsis").val(sinopsis);
+    }
 
-            // Function to change theme
-            function cambiarTema(tema) {
-                $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a ui-page-theme-b").addClass("ui-page-theme-" + tema);
-                localStorage.setItem("tema", tema);
+        // Evento de clic para el enlace de edición
+        $(document).on("click", ".edit", function () {
+            var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
+            var titulo = $(this).closest(".libro").find("h3").text(); // Obtener el título del libro
+            var autor = $(this).closest(".libro").find("h4").text(); // Obtener el autor del libro
+            var sinopsis = $(this).closest(".libro").find("p").text(); // Obtener la sinopsis del libro
+
+        // Llamar a la función para cargar los detalles del libro en el formulario de edición
+        cargarDetallesLibro(libroID, titulo, autor, sinopsis);
+
+        // Redirigir al formulario de edición
+        $.mobile.navigate("#modificar");
+    });
+</script>
+
+<script>
+    function cerrarSesion() {
+        // Hacer la petición AJAX para cerrar la sesión
+        $.ajax({
+            url: 'php/logout.php',
+            type: 'GET',
+            success: function (response) {
+                // Recargar la página actual después de cerrar sesión
+                location.reload();
+                // Después del reload, redirigir a la página de inicio de sesión después de 1 segundo
+                setTimeout(function () {
+                    window.location.href = "index.html#login";
+                }, 1000);
+            },
+            error: function () {
+                console.log('Error al cerrar sesión');
             }
+        });
+                }
+            </script>
 
-            // Event triggered when document is ready to set saved theme
-            $(document).on("ready", function () {
-                var tema_guardado = localStorage.getItem("tema");
-                if (tema_guardado) {
-                    $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
+<script>
+    // Event to change theme to "a"
+    $('#a').on("click", function () {
+        cambiarTema("a");
+    });
+
+        // Event to change theme to "b"
+        $('#b').on("click", function () {
+            cambiarTema("b");
+        });
+
+        // Function to change theme
+        function cambiarTema(tema) {
+            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a ui-page-theme-b").addClass("ui-page-theme-" + tema);
+            localStorage.setItem("tema", tema);
+        }
+
+        // Event triggered when document is ready to set saved theme
+        $(document).on("ready", function () {
+            var tema_guardado = localStorage.getItem("tema");
+            if (tema_guardado) {
+                $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
             }
         });
     </script>
+
 
 </body>
 
