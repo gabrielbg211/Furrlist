@@ -17,7 +17,7 @@ if ($conn->connect_error) {
     die("Error al conectar con la base de datos: " . $conn->connect_error);
 }
 
-// Verificar si se recibieron datos del formulario de edición
+// Verificar si se doscibieron datos del formulario de edición
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los datos del formulario
     $idLibro = $_POST['id_libro'];
