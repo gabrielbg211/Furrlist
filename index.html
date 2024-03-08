@@ -220,6 +220,21 @@
     <!-- scripts -->
    
     <script>
+        $(document).ready(function () {
+            // Hacer la petición AJAX al archivo PHP
+            $.ajax({
+                url: 'https://furrlist-production.up.railway.app/php/check_session.php',
+                type: 'GET',
+                success: function (response) {
+                    // Imprimir el resultado en la consola
+                    console.log(response);
+                },
+                error: function () {
+                    console.log('Error al comprobar la sesión');
+                }
+            });
+        });
+
             // Manejar el evento de envío del formulario de login
             $('#loginForm').submit(function (e) {
                 // Prevenir el envío del formulario por defecto

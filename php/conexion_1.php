@@ -3,9 +3,10 @@ if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header("Access-Control-Allow-Origin: http://192.168.1.10:8080");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
+
 
 // Datos de conexión a la base de datos
 $hostname = "roundhouse.proxy.rlwy.net";
@@ -22,4 +23,4 @@ $conn = new mysqli($hostname, $username, $password, $database, $dbport, $databas
 if ($conn->connect_error) {
     die("Error al conectar con la base de datos: " . $conn->connect_error);
 }
-?>
+
