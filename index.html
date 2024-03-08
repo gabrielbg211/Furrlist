@@ -21,6 +21,8 @@
                 data-rel="panel">☰</a>
         </div>
         <div role="main" class="ui-content">
+            <img src="app/img/logo_app.png" alt="foto" style="width:125px; display:block; margin:auto; margin-top: 20px;">
+            <h1 style="text-align: center; font-size: 48px; margin-top: 20px;">Furrlist</h1>
             <form id="loginForm" method="post">
                 <input type="text" id="t-username" required placeholder="Username">
                 <input type="password" id="t-password" required placeholder="Password">
@@ -34,35 +36,33 @@
             </div>
             <ul data-role="listview">
                 <li><a href="#login" data-transition="slide">Inicio de sesión</a></li>
-                <li><a href="#nosotras-login" data-transition="slide">Nosotras</a></li>
+                <li><a href="#sobre-mi-login" data-transition="slide">Sobre Mi</a></li>
             </ul>
         </div>
     </div>
 
-    <div data-role="page" id="nosotras-login">
+    <div data-role="page" id="sobre-mi-login">
         <div data-role="header">
-            <h1>Nosotras</h1>
-            <a href="#menu-nosotras-login" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left"
+            <h1>Sobre Mi</h1>
+            <a href="#menu-sobre-mi-login" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-left"
                 data-rel="open">☰</a>
         </div>
         <div role="main" class="ui-content" style="text-align: center">
-            <h2>Abril Biaggini, Belen Fandos y Ludmila Hernaez</h2>
+            <h2>Ludmila Hernaez</h2>
             <h3>Desarrollo de Apps Multiplataforma</h3>
             <p>Diseño Multimedial - Turno Tarde - 5° A</p>
             <p>App de muestra con fines académicos.</p>
-            <div class="nosotras-login">
-                <img src="app/img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
-                <img src="app/img/belen.jpg" alt="Belén Fandos" class="img-fluid">
+            <div class="sobre-mi-login">
                 <img src="app/img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
             </div>
         </div>
-        <div id="menu-nosotras-login" data-role="panel" data-display="push">
+        <div id="menu-sobre-mi-login" data-role="panel" data-display="push">
             <div style="margin-bottom:40px;">
                 <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
                 <li><a href="#login" data-transition="slide">Inicio de sesión</a></li>
-                <li><a href="#nosotras-login" data-transition="slide">Nosotras</a></li>
+                <li><a href="#sobre-mi-login" data-transition="slide">Sobre Mi</a></li>
             </ul>
         </div>
     </div>
@@ -72,14 +72,18 @@
             <h1>Registro</h1>
         </div>
         <div role="main" class="ui-content">
-            <form id="registerForm" method="post">
+            <img src="app/img/logo_app.png" alt="foto" style="width:125px; display:block; margin:auto; margin-top: 20px;">
+            <h1 style="text-align: center; font-size: 48px; margin-top: 20px;">Furrlist</h1>
+            <form id="registerForm" method="post" action="php/registro_usuario.php">
                 <input type="text" id="username" name="username" required placeholder="Usuario">
                 <input type="password" id="password" name="password" required placeholder="Contraseña">
-                <input type="submit" value="Register">
+                <input type="submit" value="Registrarse">
             </form>
             <p>¿Ya tienes una cuenta? <a href="#login">Inicia sesión</a></p>
         </div>
     </div>
+
+
 
     <!-- desde aqui es lo de luli -->
     <div data-role="page" id="home">
@@ -115,9 +119,10 @@
                 <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
-                <li><a href="#home" data-transition="slide">Inicio</a></li>
-                <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
-                <li><a href="#info" data-transition="slide">Nosotras</a></li>
+                <li><a href="#home" data-role="button" data-transition="slide" data-icon="home">Inicio</a></li>
+                <li><a href="#agregar" data-role="button" data-transition="slide" data-icon="plus" data-iconpos="left">Agregar libro</a>
+                </li>
+                <li><a href="#info" data-role="button" data-transition="slide" data-icon="info">Sobre Mi</a></li>
                 <li><a href="#" data-role="button" data-icon="power" onclick="cerrarSesion()">Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -130,13 +135,11 @@
             <h1>Integrantes</h1>
         </div>
         <div role="main" class="ui-content" style="text-align: center">
-            <h2>Abril Biaggini, Belen Fandos y Ludmila Hernaez</h2>
+            <h2>Ludmila Hernaez</h2>
             <h3>Desarrollo de Apps Multiplataforma</h3>
             <p>Diseño Multimedial - Turno Tarde - 5° A</p>
             <p>App de muestra con fines académicos.</p>
-            <div class="nosotras">
-                <img src="app/img/Abril.jpeg" alt="Abril Biaggini" class="img-fluid">
-                <img src="app/img/belen.jpg" alt="Belén Fandos" class="img-fluid">
+            <div class="Sobre Mi">
                 <img src="app/img/ludmila.jpg" alt="Ludmila Hernaez" class="img-fluid">
             </div>
         </div>
@@ -145,9 +148,10 @@
                 <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
-                <li><a href="#home" data-transition="slide">Inicio</a></li>
-                <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
-                <li><a href="#info" data-transition="slide">Nosotras</a></li>
+                <li><a href="#home" data-role="button" data-transition="slide" data-icon="home">Inicio</a></li>
+                <li><a href="#agregar" data-role="button" data-transition="slide" data-icon="plus" data-iconpos="left">Agregar libro</a>
+                </li>
+                <li><a href="#info" data-role="button" data-transition="slide" data-icon="info">Sobre Mi</a></li>
                 <li><a href="#" data-role="button" data-icon="power" onclick="cerrarSesion()">Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -159,14 +163,18 @@
                 data-rel="open">☰</a>
             <h1>Agregar libro</h1>
         </div>
-
+    
         <div role="main" class="ui-content">
-            <form id="agregarForm" method="post" action="app/save_book.php">
-                <input type="text" id="titulo" required placeholder="Título">
-                <input type="text" id="autor" required placeholder="Autor">
-                <input type="text" id="sinopsis" required placeholder="Sinopsis">
-                <div style="text-align: center;"><a href="#" data-role="button" data-inline="true"
-                        data-rel="back">cancelar</a>
+            <div class="book-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <form id="agregarForm" method="post" action="php/save_book.php" enctype="multipart/form-data">
+                <input type="text" id="titulo" name="titulo" required placeholder="Título">
+                <input type="text" id="autor" name="autor" required placeholder="Autor">
+                <input type="text" id="sinopsis" name="sinopsis" required placeholder="Sinopsis">
+                <input type="file" id="portada" name="portada" accept="image/*" required>
+                <div style="text-align: center;">
+                    <a href="#" data-role="button" data-inline="true" data-rel="back">cancelar</a>
                     <input type="submit" value="guardar" data-inline="true">
                 </div>
             </form>
@@ -176,335 +184,430 @@
                 <img src="app/img/logo_app.png" alt="foto" style="width:200px;" />
             </div>
             <ul data-role="listview">
-                <li><a href="#home" data-transition="slide">Inicio</a></li>
-                <li><a href="#agregar" data-transition="slide">Agregar libro</a></li>
-                <li><a href="#info" data-transition="slide">Nosotras</a></li>
+                <li><a href="#home" data-role="button" data-transition="slide" data-icon="home">Inicio</a></li>
+                <li><a href="#agregar" data-role="button" data-transition="slide" data-icon="plus"
+                        data-iconpos="left">Agregar libro</a>
+                </li>
+                <li><a href="#info" data-role="button" data-transition="slide" data-icon="info">Sobre Mi</a></li>
                 <li><a href="#" data-role="button" data-icon="power" onclick="cerrarSesion()">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
 
+
+
     <div data-role="page" id="modificar">
         <div data-role="header">
             <h1>Modificar libro</h1>
         </div>
-    
+
         <div role="main" class="ui-content">
-            <form id="modificarForm" method="post" action="app/update_book.php">
+            <form id="modificarForm" method="post" action="php/update_book.php">
                 <input type="hidden" id="id_libro" name="id_libro">
                 <input type="text" id="modifica_titulo" name="titulo" required placeholder="Título">
                 <input type="text" id="modifica_autor" name="autor" required placeholder="Autor">
                 <input type="text" id="modifica_sinopsis" name="sinopsis" required placeholder="Sinopsis">
-            
+                <input type="file" id="modifica_portada" name="portada">
+
                 <div style="text-align: center;">
                     <a href="#" data-role="button" data-inline="true" data-rel="back">Cancelar</a>
                     <input type="submit" value="Guardar" data-inline="true">
                 </div>
             </form>
-
         </div>
     </div>
 
     <!-- scripts -->
-
-
-    <!-- Script para imprimir id_libro en la consola -->
     <script>
-        function mostrarDatosLibro(id_libro, titulo, autor, sinopsis) {
-            // Mostrar los datos en la consola
-            console.log('ID del libro: ' + id_libro);
-            console.log('Título: ' + titulo);
-            console.log('Autor: ' + autor);
-            console.log('Sinopsis: ' + sinopsis);
-        }
-
-        // Evento de clic para el enlace de edición
-        $(document).on("click", ".edit", function () {
-            var id_libro = $(this).data("id"); // Obtener el ID del libro
-            var titulo = $(this).closest(".libro").find("h3").text(); // Obtener el título del libro
-            var autor = $(this).closest(".libro").find("h4").text(); // Obtener el autor del libro
-            var sinopsis = $(this).closest(".libro").find("p").text(); // Obtener la sinopsis del libro
-
-            // Llamar a la función para mostrar los datos del libro
-            mostrarDatosLibro(id_libro, titulo, autor, sinopsis);
-        });
-        
-    </script>
-    <script>
-        $(document).on("pagecontainerbeforeshow", function (event, ui) {
-            var pagina = ui.toPage[0].id;
-            if (pagina === "home") {
-                cargarLibrosDesdeServidor();
-            }
-        });
-
-        // Función para cargar libros desde el servidor
-        function cargarLibrosDesdeServidor() {
+        $(document).ready(function () {
+            // Hacer la petición AJAX al archivo PHP para verificar la sesión
             $.ajax({
-                type: "GET",
-                url: "app/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
-                dataType: "json",
+                url: 'php/check_session.php',
+                type: 'GET',
+                dataType: 'json', // Especificar el tipo de datos esperado
                 success: function (response) {
-                    // Manejar la respuesta del servidor y mostrar los libros en la página
-                    if (response && response.length > 0) {
-                        // Limpiar libros existentes
-                        $('#libros').empty();
-                        // Agregar libros al DOM
-                        response.forEach(function (libro) {
-                            var libroHTML = '';
-                            if (libro.id_libro && libro.titulo && libro.autor && libro.sinopsis) {
-                                libroHTML = '<div class="libro">' +
-                                    '<h3>' + libro.titulo + '</h3>' +
-                                    '<h4>' + libro.autor + '</h4>' +
-                                    '<p>' + libro.sinopsis + '</p>' +
-                                    '<a href="#" class="edit" onclick="mostrarDatosLibro(\'' + libro.id_libro + '\', \'' + libro.titulo + '\', \'' + libro.autor + '\', \'' + libro.sinopsis + '\')">' +
-                                    '<img src="app/jqm/images/icons-png/edit-white.png"></a>' +
-                                    '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
-                                    '</div>';
-                            }
-
-
-                            $('#libros').append(libroHTML);
-                        });
+                    // Verificar el estado de la sesión
+                    if (response.status === "logged_in") {
+                        // Si la sesión está iniciada, redirigir a la página principal con la sesión iniciada
+                        window.location.href = "index.html#home";
                     } else {
-                        // Manejar el caso de que no haya libros en la base de datos
-                        $('#libros').text("No hay libros disponibles en la base de datos.");
+                        // Si la sesión no está iniciada, redirigir a la página de inic                              
+                        window.location.href = "index.html#login";
                     }
                 },
-                error: function (xhr, status, error) {
-                    // Manejar errores de la solicitud AJAX
-                    console.error("Error al cargar libros desde el servidor:", error);
+                error: function () {
+                    console.log('Error al verificar la sesión');
                 }
             });
-        }
-        // Evento de clic para el enlace de edición
-        $(document).on("click", ".edit", function () {
-            var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
-            // Aquí puedes abrir un formulario de edición y prellenarlo con los detalles del libro
-            // Puedes usar AJAX para cargar los detalles del libro desde el servidor si es necesario
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Hacer la petición AJAX al archivo PHP
+            $.ajax({
+                url: 'php/check_session.php',
+                type: 'GET',
+                success: function (response) {
+                    // Imprimir el resultado en la consola
+                    console.log(response);
+                },
+                error: function () {
+                    console.log('Error al comprobar la sesión');
+                }
+            });
         });
 
-    // Función para enviar los datos del formulario de edición al servidor
-    function enviarDatosDeEdicion(libroID, nuevosDetalles) {
-        $.ajax({
-            type: "POST",
-            url: "app/update_book.php", // Ruta al script PHP que maneja la actualización del libro
-            data: { id: libroID, detalles: nuevosDetalles },
-            dataType: "json",
-            success: function (response) {
-                // Manejar la respuesta del servidor (puede ser una confirmación de éxito)
-                alert("El libro se modificó exitosamente en la base de datos.");
-            },
-            error: function (xhr, status, error) {
-                // Manejar errores de la solicitud AJAX
-                console.error("Error al editar el libro:", error);
-            }
+            // Manejar el evento de envío del formulario de login
+            $('#loginForm').submit(function (e) {
+                // Prevenir el envío del formulario por defecto
+                e.preventDefault();
+
+            // Obtener los valores del formulario
+            var username = $('#t-username').val();
+            var password = $('#t-password').val();
+
+            // Hacer la petición AJAX al archivo PHP para verificar los datos de login
+            $.ajax({
+                url: 'php/login.php',
+                type: 'POST',
+                data: { username: username, password: password },
+                success: function (response) {
+                    // Verificar la respuesta del servidor
+                    if (response === "success") {
+                        // Si los datos de login son correctos, mostrar alerta de usuario logeado correctamente
+                        alert("Usuario logeado correctamente");
+                        // Redirigir a la página principal con la sesión iniciada
+                        window.location.href = "index.html#home";
+                    } else {
+                        // Si los datos de login son incorrectos, mostrar alerta de datos inválidos
+                        alert("Datos inválidos");
+                    }
+                },
+                error: function () {
+                    console.log('Error al intentar iniciar sesión');
+                }
+            });
         });
-    }
 
+            $(document).ready(function () {
+                // Manejar el evento de envío del formulario
+                $('#registerForm').submit(function (e) {
+                    // Prevenir el envío del formulario por defecto
+                    e.preventDefault();
 
-        $("#formulario-edicion").submit(function (event) {
-                event.preventDefault();
-                var libroID = $("#id_libro").val();
-                var nuevosDetalles = {
-                    titulo: $("#titulo").val(),
-                    autor: $("#autor").val(),
-                    sinopsis: $("#sinopsis").val()
-                };
+                // Hacer la petición AJAX al archivo PHP
+                $.ajax({
+                    url: 'php/registro_usuario.php',
+                    type: 'POST',
+                    data: $(this).serialize(), // Serializar el formulario
+                    success: function (response) {
+                        // Mostrar una alerta con el mensaje recibido
+                        alert(response);
 
-                // Envía los datos del formulario al servidor utilizando AJAX
-                enviarDatosDeEdicion(libroID, nuevosDetalles);
+                        // Redirigir a la página principal si el registro fue exitoso
+                        if (response === "¡Registro exitoso!") {
+                            window.location.href = "index.html#home";
+                        }
+                    },
+                    error: function () {
+                        console.log('Error al registrar el usuario');
+                    }
+                });
+            });
+        });
+</script>
+    <script>
+        $(document).ready(function () {
+            // Manejar el evento de envío del formulario de agregar libro
+            $('#agregarForm').submit(function (e) {
+                // Prevenir el envío del formulario por defecto
+                e.preventDefault();
+
+                // Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
+                var formData = new FormData(this);
+
+                // Hacer la petición AJAX al archivo PHP para agregar el libro
+                $.ajax({
+                    url: 'php/save_book.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Indicar a jQuery que no procese los datos
+                    contentType: false, // Indicar a jQuery que no configure el tipo de contenido
+                    success: function (response) {
+                        // Mostrar una alerta con el mensaje recibido
+                        if (response === "success") {
+                            alert("Libro creado exitosamente");
+                            // Redireccionar a index.html#home
+                            window.location.href = 'index.html#home';
+                            // Limpiar los campos del formulario
+                            $('#titulo').val('');
+                            $('#autor').val('');
+                            $('#sinopsis').val('');
+                            $('#portada').val('');
+                        } else {
+                            alert("Error: " + response); // Mostrar el mensaje de error recibido del servidor
+                        }
+                    },
+                    error: function () {
+                        console.log('Error al agregar el libro');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+            $(document).ready(function () {
+            // Evento que se dispara antes de mostrar la página #home
+            $(document).on("pagecontainerbeforeshow", function (event, ui) {
+                var pagina = ui.toPage[0].id;
+                if (pagina === "home") {
+                    cargarLibrosDesdeServidor(); // Llama a la función para cargar los libros desde el servidor
+                }
             });
 
-    </script>
-
-    <script>
-        // Verificar el estado de la sesión en la base de datos
-        $.ajax({
-            type: "GET",
-            url: "app/check_session.php", // Ruta a tu script de verificación de sesión en la base de datos
-            success: function (response) {
-                console.log("Estado de la sesión en la base de datos:", response);
-            },
-            error: function (xhr, status, error) {
-                // Error de conexión
-                console.error("Error al verificar la sesión en la base de datos:", error);
-            }
-        });
-
-        $(document).ready(function () {
-            // Function to log in
-            $("#loginForm").submit(function (e) {
-                e.preventDefault();
-                var username = $("#t-username").val();
-                var password = $("#t-password").val();
+            // Función para cargar libros desde el servidor
+            function cargarLibrosDesdeServidor() {
                 $.ajax({
-                    type: "POST",
-                    url: "app/login.php", // Cambia esto por la ruta correcta a tu script de inicio de sesión
-                    data: {
-                        username: username,
-                        password: password
-                    },
+                    type: "GET",
+                    url: "php/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
+                    dataType: "json",
+                    data: { username: localStorage.getItem("loggedUser") }, // Envía el nombre de usuario del usuario actual al servidor
                     success: function (response) {
-                        if (response === "success") {
-                            // Inicio de sesión exitoso
-                            alert("Inicio de sesión exitoso con base de datos");
-                            // Establecer sesión en el almacenamiento local
-                            localStorage.setItem("loggedIn", "true");
-                            localStorage.setItem("loggedUser", username);
-                            // Disparar evento personalizado para manejar el inicio de sesión en otras partes del código
-                            $(document).trigger("inicioSesionCorrecto");
+                        // Manejar la respuesta del servidor y mostrar los libros en la página
+                        if (response && response.length > 0) {
+                            // Limpiar libros existentes
+                            $('#libros').empty();
+                            // Agregar libros al DOM
+                            response.forEach(function (libro) {
+                                var libroHTML = '';
+                                if (libro.titulo && libro.autor && libro.sinopsis && libro.username && libro.id_libro) {
+                                    libroHTML = '<div class="libro" data-id="' + libro.id_libro + '">' +
+                                        '<img class="portada" src="' + libro.ruta_portada + '" alt="Portada del libro">' + // Utilizar la ruta de la portada directamente
+                                        '<div class="contenido">' + // Div para el contenido del libro
+                                        '<h3>' + libro.titulo + '</h3>' +
+                                        '<h4>' + libro.autor + '</h4>' +
+                                        '<p>' + libro.sinopsis + '</p>' +
+                                        '</div>' + // Cierre de contenido
+                                        '<div class="acciones">' +
+                                        '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>' +
+                                        '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
+                                        '</div>' +
+                                        '</div>';
+
+
+                                }
+                                $('#libros').append(libroHTML);
+                            });
+
                         } else {
-                            // Nombre de usuario o contraseña incorrectos
-                            alert("Nombre de usuario o contraseña incorrectos");
+                            // Manejar el caso de que no haya libros en la base de datos
+                            $('#libros').text("No hay libros disponibles para este usuario.");
                         }
                     },
                     error: function (xhr, status, error) {
-                        // Error de conexión
-                        alert("Error de conexión: " + error);
+                        // Manejar errores de la solicitud AJAX
+                        console.error("Error al cargar libros desde el servidor:", error);
+                    }
+                });
+            }
+        });
+
+
+    // Agregar evento de clic al botón de eliminar
+    $(document).on("click", ".delete", function () {
+        // Obtener el ID del libro que se va a eliminar
+        var libroID = $(this).closest(".libro").data("id");
+
+        // Confirmar si el usuario realmente desea eliminar el libro
+        if (confirm("¿Estás seguro de que quieres eliminar este libro?")) {
+            // Realizar la petición AJAX para eliminar el libro
+            $.ajax({
+                    url: 'php/delete_book.php',
+                    type: 'POST',
+                    data: { id_libro: libroID }, // Enviar el ID del libro al servidor
+                    success: function (response) {
+                        // Manejar la respuesta del servidor
+                        if (response === "success") {
+                            // Si el libro se eliminó correctamente, recargar la página
+                            location.reload();
+                            alert("El libro se eliminó correctamente");
+                        } else {
+                            alert("Error al eliminar el libro: " + response);
+                        }
+                    },
+                    error: function () {
+                        console.log('Error al eliminar el libro');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Manejar el envío del formulario de edición
+            $('#modificarForm').submit(function (e) {
+            // Prevenir el envío del formulario por defecto
+                e.preventDefault();
+
+                // Obtener los datos del formulario
+                var idLibro = $('#id_libro').val();
+                var titulo = $('#modifica_titulo').val();
+                var autor = $('#modifica_autor').val();
+                var sinopsis = $('#modifica_sinopsis').val();
+                var portadaFile = $('#modifica_portada')[0].files[0]; // Obtener el archivo de la portada
+
+                // Crear un objeto FormData para enviar los datos del formulario, incluida la nueva portada
+                var formData = new FormData();
+                formData.append('id_libro', idLibro);
+                formData.append('titulo', titulo);
+                formData.append('autor', autor);
+                formData.append('sinopsis', sinopsis);
+                formData.append('portada', portadaFile);
+
+                // Hacer la petición AJAX para actualizar el libro
+                $.ajax({
+                    url: 'php/update_book.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Indicar a jQuery que no procese los datos
+                    contentType: false, // Indicar a jQuery que no configure el tipo de contenido
+                    success: function (response) {
+                        // Mostrar una alerta con el mensaje recibido
+                        if (response === "success") {
+                            alert("El libro se actualizó correctamente");
+                            // Redirigir a la página principal después de la actualización
+                            window.location.href = 'index.html#home';
+                        } else {
+                            alert("Error al actualizar el libro: " + response);
+                        }
+                    },
+                    error: function () {
+                        console.log('Error al enviar datos de edición del libro');
                     }
                 });
             });
+        });
 
-            // Event to handle successful login
-            $(document).on("inicioSesionCorrecto", function () {
-                // Redirigir a la página de inicio después del inicio de sesión exitoso
-                $.mobile.navigate("#home");
+            // Definir la función para cargar los detalles del libro en el formulario de edición
+            function cargarDetallesLibro(id_libro, titulo, autor, sinopsis, ruta_portada) {
+                $("#id_libro").val(id_libro);
+                $("#modifica_titulo").val(titulo);
+                $("#modifica_autor").val(autor);
+                $("#modifica_sinopsis").val(sinopsis);
+                $("#ruta_portada_actual").val(ruta_portada); // Establecer la ruta de la portada actual
+            }
+
+
+
+
+            // Definir la función para cargar los detalles del libro en el formulario de edición
+            function cargarDetallesLibro(id_libro, titulo, autor, sinopsis, ruta_portada) {
+                // Mostrar los datos en la consola
+                console.log("ID del libro:", id_libro);
+                console.log("Título:", titulo);
+                console.log("Autor:", autor);
+                console.log("Sinopsis:", sinopsis);
+                console.log("Ruta de la portada:", ruta_portada);
+
+                // Asignar los valores a los campos del formulario
+                $("#id_libro").val(id_libro);
+                $("#modifica_titulo").val(titulo);
+                $("#modifica_autor").val(autor);
+                $("#modifica_sinopsis").val(sinopsis);
+                $("#ruta_portada_actual").val(ruta_portada); // Establecer la ruta de la portada actual
+            }
+
+                // Evento de clic para el enlace de edición
+                $(document).on("click", ".edit", function () {
+                    var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
+                    var titulo = $(this).closest(".libro").find("h3").text(); // Obtener el título del libro
+                    var autor = $(this).closest(".libro").find("h4").text(); // Obtener el autor del libro
+                    var sinopsis = $(this).closest(".libro").find("p").text(); // Obtener la sinopsis del libro
+                    var portadaNombre = $(this).closest(".libro").data("imagen_portada"); // Obtener el nombre de la imagen de portada del libro
+                    var rutaPortada = $(this).closest(".libro").data("ruta_portada"); // Obtener la ruta de la portada del libro
+
+                // Mostrar los datos en la consola del navegador
+                console.log("ID del libro seleccionado:", libroID);
+                console.log("Título:", titulo);
+                console.log("Autor:", autor);
+                console.log("Sinopsis:", sinopsis);
+                console.log("Nombre de la portada:", portadaNombre);
+                console.log("Ruta de la portada:", rutaPortada);
+
+                // Llamar a la función para cargar los detalles del libro en el formulario de edición
+                cargarDetallesLibro(libroID, titulo, autor, sinopsis, rutaPortada);
+
+                // Redirigir al formulario de edición
+                $.mobile.navigate("#modificar");
             });
-        });
 
 
-    </script>
+                // Evento de clic para el enlace de edición
+                $(document).on("click", ".edit", function () {
+                    var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
 
-    <script>
-        $(document).ready(function () {
-            // Verificar si hay datos de sesión en localStorage
-            if (localStorage.getItem("loggedIn")) {
-                console.log("La sesión está basada en localStorage.");
-            } else {
-                console.log("No hay sesión activa.");
-            }
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            // Initialize local storage users if not exists
-            if (!localStorage.getItem("users")) {
-                localStorage.setItem("users", JSON.stringify({}));
-            }
-
-            // Function to register a new user
-            $("#registerForm").submit(function (e) {
-                e.preventDefault();
-                var newUsername = $("#username").val();
-                var newPassword = $("#password").val();
-                var users = JSON.parse(localStorage.getItem("users")) || {};
-                if (users[newUsername]) {
-                    alert("El nombre de usuario ya está en uso.");
-                } else {
-                    // Enviar datos al servidor utilizando AJAX
+                    // Realizar una solicitud AJAX para obtener los detalles del libro, incluida la ruta de la portada
                     $.ajax({
-                        type: "POST",
-                        url: "app/conexion.php",
-                        data: {
-                            username: newUsername,
-                            password: newPassword
-                        },
+                        url: 'php/get_book_details.php', // Ruta al script PHP que obtiene los detalles del libro desde la base de datos
+                        type: 'GET',
+                        data: { id_libro: libroID },
                         success: function (response) {
-                            // Si la inserción en la base de datos fue exitosa
-                            alert("Usuario registrado correctamente en la base de datos.");
-                            $.mobile.navigate("#login");
+                            // Parsear la respuesta JSON
+                            var libro = JSON.parse(response);
+
+                            // Verificar si se obtuvieron los detalles del libro correctamente
+                            if (libro) {
+                                // Obtener los detalles del libro
+                                var titulo = libro.titulo;
+                                var autor = libro.autor;
+                                var sinopsis = libro.sinopsis;
+                                var imagen_portada = libro.imagen_portada;
+                                var ruta_portada = libro.ruta_portada;
+
+                                // Mostrar los datos en la consola
+                                console.log("ID del libro:", libroID);
+                                console.log("Título:", titulo);
+                                console.log("Autor:", autor);
+                                console.log("Sinopsis:", sinopsis);
+                                console.log("Nombre de la portada:", imagen_portada);
+                                console.log("Ruta de la portada:", ruta_portada);
+
+                                // Llamar a la función para cargar los detalles del libro en el formulario de edición
+                                cargarDetallesLibro(libroID, titulo, autor, sinopsis, ruta_portada);
+
+                                // Redirigir al formulario de edición
+                                $.mobile.navigate("#modificar");
+                            } else {
+                                console.log("Error: No se pudo obtener los detalles del libro");
+                            }
                         },
-                        error: function (xhr, status, error) {
-                            // Si ocurrió un error durante la inserción en la base de datos
-                            alert("Error al registrar nuevo usuario en la base de datos: " + error);
+                        error: function () {
+                            console.log('Error al obtener detalles del libro desde la base de datos');
                         }
                     });
-
-                    // Actualizar el almacenamiento local de usuarios
-                    users[newUsername] = { password: newPassword, libros: [] };
-                    localStorage.setItem("users", JSON.stringify(users));
-
-                    // Mensaje para indicar que se guardó en el Local Storage
-                    alert("Usuario registrado correctamente en el Local Storage.");
-                }
-            });
-
-
-            // Function to clean books section
-            function limpiarLibros() {
-                $('#libros').empty();
-            }
-
-            // Function to check if user is logged in
-            function isLoggedIn() {
-                return localStorage.getItem("loggedIn") === "true";
-            }
-
-            // Function to get logged-in user
-            function getLoggedUser() {
-                return localStorage.getItem("loggedUser");
-            }
-
-            // Function to save books in local storage of current user
-            function guardarLibros() {
-                var loggedUser = getLoggedUser();
-                var libros_actuales = [];
-                $('#libros div').each(function () {
-                    libros_actuales.push($(this).html());
                 });
-                var userBooks = JSON.parse(localStorage.getItem(loggedUser)) || {};
-                userBooks["libros"] = libros_actuales;
-                localStorage.setItem(loggedUser, JSON.stringify(userBooks));
-            }
 
-            // Function to load books of current user
-            function cargarLibrosUsuario() {
-                var loggedUser = getLoggedUser();
-                var userBooks = JSON.parse(localStorage.getItem(loggedUser)) || {};
-                var libros_recuperados = userBooks["libros"] || [];
+</script>
 
-                $.each(libros_recuperados, function (indice, valor) {
-                    var libro = $('<div class="libro"></div>').append(valor);
-                    if (libro.children("h3").attr("data-cumplido") == "si") {
-                        libro.css({ color: "white" });
-                    }
-                    $('#libros').append(libro);
-                });
-            }
-
-            // Event to trigger after successful login
-            $(document).on("inicioSesionCorrecto", function () {
-                limpiarLibros();
-                cargarLibrosUsuario();
-                $.mobile.navigate("#home");
-            });
-
-            // Function to start session
-            function sesionIniciada() {
-                $(document).trigger("inicioSesionCorrecto");
-            }
-
-            // Function to verify session
-            function verificarSesion() {
-                var loggedIn = localStorage.getItem("loggedIn");
-                if (!loggedIn || loggedIn !== "true") {
-                    // Si no hay sesión activa, mostrar mensaje
-                    $('#libros').empty(); // Limpiar libros
-                    $('#libros').text("No hay sesión activa. Por favor inicia sesión.");
-                    $.mobile.navigate("#login");
-                }
-            }
-
-
-            // Event triggered before showing each page
-            $(document).on("pagecontainerbeforeshow", function (event, ui) {
-                var pagina = ui.toPage[0].id;
-                if (pagina === "home" || pagina === "nosotras-login" || pagina === "libros" || pagina === "agregar" || pagina === "modificar") {
-                    verificarSesion();
+    <script>
+        function cerrarSesion() {
+            // Hacer la petición AJAX para cerrar la sesión
+            $.ajax({
+                url: 'php/logout.php',
+                type: 'GET',
+                success: function (response) {
+                    // Redirigir a la página de inicio de sesión después de cerrar la sesión
+                    window.location.href = "index.html#login";
+                },
+                error: function () {
+                    console.log('Error al cerrar sesión');
                 }
             });
+            }
+        </script>
 
+    <script>
             // Event to change theme to "a"
             $('#a').on("click", function () {
                 cambiarTema("a");
@@ -526,168 +629,9 @@
                 var tema_guardado = localStorage.getItem("tema");
                 if (tema_guardado) {
                     $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
-                }
-            });
-
-            // Limpiar los campos de entrada después de enviar el formulario
-            $("#titulo").val("");
-            $("#autor").val("");
-            $("#sinopsis").val("");
-
-
-            // Event to add book
-            $('#agregar form').on('submit', function () {
-                var titulo = $('#titulo').val();
-                var autor = $('#autor').val();
-                var sinopsis = $('#sinopsis').val();
-                var libro = $('<div></div>');
-                libro.attr('class', "libro")
-                    .append(
-                        '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>'
-                    )
-                    .append(
-                        '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>'
-                    )
-                    .append('<h3>' + titulo + '</h3>')
-                    .append('<h4>' + autor + '</h4>')
-                    .append('<p>' + sinopsis + '</p>');
-                $('#libros').prepend(libro);
-                guardarLibros();
-                $.mobile.navigate('#home');
-
-                // Limpiar los campos de entrada después de enviar el formulario
-                $("#titulo").val("");
-                $("#autor").val("");
-                $("#sinopsis").val("");
-
-                return false;
-            });
-
-
-
-            // Event to delete book
-            $('#libros').on("click", ".libro .delete", function () {
-                var eliminar_libro = confirm("¿Estás seguro que querés eliminar el libro?");
-                if (eliminar_libro) {
-                    $(this).parent().remove();
-                    guardarLibros();
-                }
-            });
-
-            // Event to mark book as completed or not
-            $('#libros').on("click", ".libro", function () {
-                var cumplido = $(this).attr("data-cumplido");
-                if (!cumplido || cumplido === "no") {
-                    $(this).css({ color: "white" });
-                    $(this).attr("data-cumplido", "si");
-                } else {
-                    $(this).css({ color: "black" });
-                    $(this).attr("data-cumplido", "no");
-                }
-                guardarLibros();
-            });
-
-            // Event to edit book
-            $('#libros').on("click", ".libro .edit", function () {
-                var titulo_actual = $(this).parent().children("h3").text();
-                var autor_actual = $(this).parent().children("h4").text();
-                var sinopsis_actual = $(this).parent().children("p").text();
-                $('#modifica_titulo').val(titulo_actual);
-                $('#modifica_autor').val(autor_actual);
-                $('#modifica_sinopsis').val(sinopsis_actual);
-                $(this).parent().attr("data-modificando", "este");
-                $.mobile.navigate('#modificar');
-            });
-
-            // Event to modify book
-            $('#modificar form').on("submit", function () {
-                var titulo_modificado = $('#modifica_titulo').val();
-                var autor_modificado = $('#modifica_autor').val();
-                var sinopsis_modificado = $('#modifica_sinopsis').val();
-                var modificando = $('#libros').find("[data-modificando]");
-                modificando.children('h3').text(titulo_modificado);
-                modificando.children('h4').text(autor_modificado);
-                modificando.children('p').text(sinopsis_modificado);
-                modificando.removeAttr("data-modificando");
-                guardarLibros();
-                $.mobile.navigate("#home");
-                return false;
-            });
-
-            // Function to load books when document is ready
-            $(document).on("ready", function () {
-                cargarLibrosUsuario();
-            });
-        });
-    </script>
-
-    <script>
-        // Function to close session
-        function cerrarSesion() {
-            // Eliminar sesión del almacenamiento local
-            localStorage.removeItem("loggedIn");
-            localStorage.removeItem("loggedUser");
-
-            // Enviar solicitud al servidor para cerrar sesión en la base de datos
-            $.ajax({
-                type: "GET",
-                url: "app/logout.php", // Ruta a tu script de cerrar sesión en el servidor
-                success: function (response) {
-                    // Redirigir a la página de inicio de sesión después de cerrar sesión
-                    $.mobile.navigate("#login");
-                },
-                error: function (xhr, status, error) {
-                    // Manejar errores si hay algún problema al cerrar sesión en el servidor
-                    console.error("Error al cerrar sesión en el servidor:", error);
-                }
-            });
-        }
-    </script>
-
-    <script>
-        // Function to clean books section
-        function limpiarLibros() {
-            $('#libros').empty();
-        }
-    </script>
-
-    <script>
-        // Function to register a new user
-        $("#agregarForm").submit(function (e) {
-            e.preventDefault();
-            var newUsername = $("#username").val();
-            var newPassword = $("#password").val();
-            var users = JSON.parse(localStorage.getItem("users")) || {};
-            if (users[newUsername]) {
-                alert("El nombre de usuario ya está en uso.");
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "app/save_book.php",
-                    data: {
-                        titulo: $("#titulo").val(),
-                        autor: $("#autor").val(),
-                        sinopsis: $("#sinopsis").val()
-                    },
-                    success: function (response) {
-                        if (response === "success") {
-                            // Mostrar alerta de éxito si el libro se guarda en la base de datos correctamente
-                            alert("Libro guardado exitosamente en la base de datos.");
-                            // Resto del código para manejar el registro del usuario...
-                        } else {
-                            alert("Error al guardar el libro en la base de datos: " + response);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Error al guardar el libro en la base de datos: " + error);
-                    }
-                });
-                // Resto del código para manejar el registro del usuario...
             }
         });
-
     </script>
-
 
 </body>
 

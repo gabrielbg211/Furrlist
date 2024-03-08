@@ -5,7 +5,11 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-
+.img-fluid{
+	max-width: 100%;
+	height: auto;
+	
+}
 .libro {
     padding: 15px;
     margin: 10px 0;
@@ -38,4 +42,33 @@
 /* Estilo para posicionar el icono a la derecha */
 .cerrar-sesion .ui-icon {
     float: right;
+}
+
+
+.libro {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Dos columnas, una para la portada y otra para el contenido */
+    align-items: flex-start; /* Alinear elementos al principio */
+    margin-bottom: 20px;
+}
+
+.portada {
+    width: 100px; /* Ajusta el ancho de la portada según tu preferencia */
+    height: auto; /* Altura automática para mantener la proporción */
+    margin-right: 20px; /* Espacio entre la portada y el contenido */
+}
+
+.contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinear elementos verticalmente al centro */
+}
+
+.contenido h3 {
+    margin-bottom: 60px; /* Aumentar el espacio entre el título y el autor */
+}
+
+.contenido h4,
+.contenido p {
+    margin: 0; /* Eliminar el margen en autor y sinopsis */
 }

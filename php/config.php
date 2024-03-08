@@ -1,0 +1,6 @@
+<?php
+$hostname = "roundhouse.proxy.rlwy.net";
+$db_username = "root";
+$db_password = "FfgBbhdC14-d3g5DDA6F5fec43cHBf3f";
+$database = "railway";
+$dbport = "21765";
