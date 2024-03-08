@@ -1,4 +1,8 @@
 <?php
+
+header("Access-Control-Allow-Origin: http://192.168.1.10:8080");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 include 'config.php'; // Incluir el archivo que contiene las variables de conexión a la base de datos
 
 // Verificar si se recibió el ID del libro a eliminar

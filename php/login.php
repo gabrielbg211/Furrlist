@@ -1,4 +1,8 @@
 <?php
+
+header("Access-Control-Allow-Origin: http://192.168.1.10:8080");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 // Verificar si se enviaron datos de inicio de sesión
 if(isset($_POST['username']) && isset($_POST['password'])) {
     // Datos de conexión a la base de datos
