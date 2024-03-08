@@ -1,19 +1,19 @@
 <?php
-header("Access-Control-Allow-Origin: http://192.168.1.10:8080");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Verificar si se enviaron datos de inicio de sesión
-if(isset($_POST['username']) && isset($_POST['password'])) {
+if(isset($_POST['username'], $_POST['password'])) {
     // Datos de conexión a la base de datos
     $hostname = "roundhouse.proxy.rlwy.net";
-    $username = "root";
-    $password = "FfgBbhdC14-d3g5DDA6F5fec43cHBf3f";
+    $usernameDB = "root";
+    $passwordDB = "FfgBbhdC14-d3g5DDA6F5fec43cHBf3f";
     $database = "railway";
     $dbport = "21765";
 
     // Crear conexión
-    $conn = mysqli_connect($hostname, $username, $password, $database, $dbport);
+    $conn = mysqli_connect($hostname, $usernameDB, $passwordDB, $database, $dbport);
 
     // Verificar conexión
     if (!$conn) {
@@ -32,10 +32,10 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
         // Iniciar sesión y redirigir al usuario a la página principal
         session_start();
         $_SESSION['username'] = $username;
-        echo "success"; // Cambiado a "success" para que coincida con el código JavaScript
+        echo "success"; // Devolver "success" si las credenciales son válidas
     } else {
         // Credenciales incorrectas
-        echo "failed"; // Cambiado a "failed" para que coincida con el código JavaScript
+        echo "failed";
     }
 
     // Cerrar conexión

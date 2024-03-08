@@ -27,7 +27,7 @@ if (
 
         // Generar un nombre único para el archivo de la portada
         $nombreUnico = uniqid() . '.png';
-        $rutaPortada = '../php/portada_libros/' . $nombreUnico;
+        $rutaPortada = 'https://furrlist-production.up.railway.app/php/portada_libros/' . $nombreUnico;
 
         // Mover el archivo cargado a la ubicación adecuada en el servidor
         if (move_uploaded_file($_FILES['portada']['tmp_name'], $rutaPortada)) {
