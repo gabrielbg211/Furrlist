@@ -250,6 +250,7 @@
                 type: 'POST',
                 data: { username: username, password: password },
                 success: function (response) {
+                    console.log(response); 
                     // Verificar la respuesta del servidor
                     if (response === "success") {
                         // Si los datos de login son correctos, mostrar alerta de usuario logeado correctamente
