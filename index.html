@@ -74,7 +74,7 @@
         <div role="main" class="ui-content">
             <img src="app/img/logo_app.png" alt="foto" style="width:125px; display:block; margin:auto; margin-top: 20px;">
             <h1 style="text-align: center; font-size: 48px; margin-top: 20px;">Furrlist</h1>
-            <form id="registerForm" method="post" action="php/registro_usuario.php">
+            <form id="registerForm" method="post" action="https://furrlist-production.up.railway.app/php/registro_usuario.php">
                 <input type="text" id="username" name="username" required placeholder="Usuario">
                 <input type="password" id="password" name="password" required placeholder="Contraseña">
                 <input type="submit" value="Registrarse">
@@ -168,7 +168,7 @@
             <div class="book-icon">
                 <i class="fas fa-book"></i>
             </div>
-            <form id="agregarForm" method="post" action="php/save_book.php" enctype="multipart/form-data">
+            <form id="agregarForm" method="post" action="https://furrlist-production.up.railway.app/" enctype="multipart/form-data">
                 <input type="text" id="titulo" name="titulo" required placeholder="Título">
                 <input type="text" id="autor" name="autor" required placeholder="Autor">
                 <input type="text" id="sinopsis" name="sinopsis" required placeholder="Sinopsis">
@@ -202,7 +202,7 @@
         </div>
 
         <div role="main" class="ui-content">
-            <form id="modificarForm" method="post" action="php/update_book.php">
+            <form id="modificarForm" method="post" action="https://furrlist-production.up.railway.app/">
                 <input type="hidden" id="id_libro" name="id_libro">
                 <input type="text" id="modifica_titulo" name="titulo" required placeholder="Título">
                 <input type="text" id="modifica_autor" name="autor" required placeholder="Autor">
@@ -218,45 +218,8 @@
     </div>
 
     <!-- scripts -->
+   
     <script>
-        $(document).ready(function () {
-            // Hacer la petición AJAX al archivo PHP para verificar la sesión
-            $.ajax({
-                url: 'php/check_session.php',
-                type: 'GET',
-                dataType: 'json', // Especificar el tipo de datos esperado
-                success: function (response) {
-                    // Verificar el estado de la sesión
-                    if (response.status === "logged_in") {
-                        // Si la sesión está iniciada, redirigir a la página principal con la sesión iniciada
-                        window.location.href = "index.html#home";
-                    } else {
-                        // Si la sesión no está iniciada, redirigir a la página de inic                              
-                        window.location.href = "index.html#login";
-                    }
-                },
-                error: function () {
-                    console.log('Error al verificar la sesión');
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            // Hacer la petición AJAX al archivo PHP
-            $.ajax({
-                url: 'php/check_session.php',
-                type: 'GET',
-                success: function (response) {
-                    // Imprimir el resultado en la consola
-                    console.log(response);
-                },
-                error: function () {
-                    console.log('Error al comprobar la sesión');
-                }
-            });
-        });
-
             // Manejar el evento de envío del formulario de login
             $('#loginForm').submit(function (e) {
                 // Prevenir el envío del formulario por defecto
@@ -268,7 +231,7 @@
 
             // Hacer la petición AJAX al archivo PHP para verificar los datos de login
             $.ajax({
-                url: 'php/login.php',
+                url: 'https://furrlist-production.up.railway.app/php/login.php',
                 type: 'POST',
                 data: { username: username, password: password },
                 success: function (response) {
@@ -297,7 +260,7 @@
 
                 // Hacer la petición AJAX al archivo PHP
                 $.ajax({
-                    url: 'php/registro_usuario.php',
+                    url: 'https://furrlist-production.up.railway.app/php/registro_usuario.php',
                     type: 'POST',
                     data: $(this).serialize(), // Serializar el formulario
                     success: function (response) {
@@ -328,7 +291,7 @@
 
                 // Hacer la petición AJAX al archivo PHP para agregar el libro
                 $.ajax({
-                    url: 'php/save_book.php',
+                    url: 'https://furrlist-production.up.railway.app/php/save_book.php',
                     type: 'POST',
                     data: formData,
                     processData: false, // Indicar a jQuery que no procese los datos
@@ -369,7 +332,7 @@
             function cargarLibrosDesdeServidor() {
                 $.ajax({
                     type: "GET",
-                    url: "php/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
+                    url: "https://furrlist-production.up.railway.app/php/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
                     dataType: "json",
                     data: { username: localStorage.getItem("loggedUser") }, // Envía el nombre de usuario del usuario actual al servidor
                     success: function (response) {
@@ -422,7 +385,7 @@
         if (confirm("¿Estás seguro de que quieres eliminar este libro?")) {
             // Realizar la petición AJAX para eliminar el libro
             $.ajax({
-                    url: 'php/delete_book.php',
+                    url: 'https://furrlist-production.up.railway.app/php/delete_book.php',
                     type: 'POST',
                     data: { id_libro: libroID }, // Enviar el ID del libro al servidor
                     success: function (response) {
@@ -467,7 +430,7 @@
 
                 // Hacer la petición AJAX para actualizar el libro
                 $.ajax({
-                    url: 'php/update_book.php',
+                    url: 'https://furrlist-production.up.railway.app/php/update_book.php',
                     type: 'POST',
                     data: formData,
                     processData: false, // Indicar a jQuery que no procese los datos
@@ -549,7 +512,7 @@
 
                     // Realizar una solicitud AJAX para obtener los detalles del libro, incluida la ruta de la portada
                     $.ajax({
-                        url: 'php/get_book_details.php', // Ruta al script PHP que obtiene los detalles del libro desde la base de datos
+                        url: 'https://furrlist-production.up.railway.app/php/get_book_details.php', // Ruta al script PHP que obtiene los detalles del libro desde la base de datos
                         type: 'GET',
                         data: { id_libro: libroID },
                         success: function (response) {
@@ -594,7 +557,7 @@
         function cerrarSesion() {
             // Hacer la petición AJAX para cerrar la sesión
             $.ajax({
-                url: 'php/logout.php',
+                url: 'https://furrlist-production.up.railway.app/php/logout.php',
                 type: 'GET',
                 success: function (response) {
                     // Redirigir a la página de inicio de sesión después de cerrar la sesión
