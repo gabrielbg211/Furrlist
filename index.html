@@ -74,7 +74,8 @@
         <div role="main" class="ui-content">
             <img src="app/img/logo_app.png" alt="foto" style="width:125px; display:block; margin:auto; margin-top: 20px;">
             <h1 style="text-align: center; font-size: 48px; margin-top: 20px;">Furrlist</h1>
-            <form id="registerForm" method="post" action="php/registro_usuario.php">
+            <!-- <form id="registerForm" method="post" action="php/registro_usuario.php"> -->
+            <form id="registerForm" method="post">
                 <input type="text" id="username" name="username" required placeholder="Usuario">
                 <input type="password" id="password" name="password" required placeholder="Contraseña">
                 <input type="submit" value="Registrarse">
@@ -166,7 +167,8 @@
             <div class="book-icon">
                 <i class="fas fa-book"></i>
             </div>
-            <form id="agregarForm" method="post" action="php/save_book.php">
+            <!-- <form id="agregarForm" method="post" action="php/save_book.php"> -->
+            <form id="agregarForm" method="post">
                 <input type="text" id="titulo" name="titulo" required placeholder="Título">
                 <input type="text" id="autor" name="autor" required placeholder="Autor">
                 <input type="text" id="sinopsis" name="sinopsis" required placeholder="Sinopsis">
@@ -197,6 +199,7 @@
         </div>
 
         <div role="main" class="ui-content">
+            <!-- <form id="modificarForm" method="post" action="php/update_book.php"> -->
             <form id="modificarForm" method="post" action="php/update_book.php">
                 <input type="hidden" id="id_libro" name="id_libro">
                 <input type="text" id="modifica_titulo" name="titulo" required placeholder="Título">
@@ -210,22 +213,544 @@
         </div>
     </div>
 
-<!-- scripts -->
-<script>
-    $(document).ready(function () {
-        // Hacer la petición AJAX al archivo PHP para verificar la sesión
+    <!-- localstorage -->
+    
+    <script>
+        $(document).ready(function () {
+            // Verificar si hay una sesión activa con AJAX
+            $.ajax({
+                url: 'php/check_session.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    if (response.status === "logged_in") {
+                        // Si hay una sesión activa, redirigir a la página de inicio
+                        window.location.href = "index.html#home";
+                    } else {
+                        // Si no hay sesión activa, verificar la página y redirigir según sea necesario
+                        verificarPagina();
+                    }
+                },
+                error: function () {
+                    console.log('Error al verificar la sesión');
+                    // En caso de error, también verificar la página y redirigir según sea necesario
+                    verificarPagina();
+                }
+            });
+
+            // Función para verificar la página y redirigir según sea necesario
+            function verificarPagina() {
+                // Verificar si la página es index.html#home y hay una sesión activa
+                if (window.location.hash === '#home') {
+                    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    if (!currentUser) {
+                        // Si no hay sesión activa, redirigir al inicio de sesión
+                        window.location.href = 'index.html#login';
+                    }
+                }
+
+                // Verificar si la página es index.html#login o index.html#registerPage y hay una sesión activa
+                if (window.location.hash === '#login' || window.location.hash === '#registerPage') {
+                    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    if (currentUser) {
+                        // Si hay sesión activa, redirigir a la página de inicio
+                        window.location.href = 'index.html#home';
+                    }
+                }
+
+                // Llamar a verificarSesion una vez para mostrar el estado de la sesión actual
+                verificarSesion();
+            }
+
+            // Función para verificar la sesión almacenada localmente
+            function verificarSesion() {
+                var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    // Hay una sesión activa
+                    console.log('Sesión con localStorage:', currentUser.username);
+                } else {
+                    // No hay sesión activa
+                    console.log('No hay sesión activa con localStorage');
+                }
+            }
+        });
+    </script>
+    
+    
+    <script>
+        $(document).ready(function () {
+            // Función para registrar el usuario utilizando AJAX
+            function registrarUsuarioAJAX(formData) {
+                $.ajax({
+                    url: 'php/registro_usuario.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        if (response === "¡Registro exitoso!") {
+                            window.location.href = "index.html#home";
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        console.log('Error al registrar el usuario');
+                    }
+                });
+            }
+
+            // Función para registrar el usuario en el localStorage e iniciar sesión
+            function registrarUsuarioLocalStorage(username, password) {
+                // Verificar si el usuario ya existe en el localStorage
+                var users = JSON.parse(localStorage.getItem('users')) || [];
+                var userExists = users.some(function (user) {
+                    return user.username === username;
+                });
+
+                if (userExists) {
+                    alert('El usuario ya existe');
+                    return;
+                }
+
+                // Crear un nuevo usuario
+                var newUser = {
+                    username: username,
+                    password: password
+                };
+
+                // Guardar el nuevo usuario en el localStorage
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Iniciar sesión automáticamente en el localStorage
+                localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+                alert('Usuario registrado correctamente');
+
+                // Limpiar el formulario
+                $('#username').val('');
+                $('#password').val('');
+            }
+
+
+            // Manejar el evento de submit del formulario de registro
+            $('#registerForm').submit(function (e) {
+                e.preventDefault();
+                var username = $('#username').val();
+                var password = $('#password').val();
+
+                // Registrar el usuario utilizando AJAX
+                registrarUsuarioAJAX($(this).serialize());
+
+                // Registrar el usuario en el localStorage
+                registrarUsuarioLocalStorage(username, password);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Función para iniciar sesión utilizando AJAX
+            function iniciarSesionAJAX(username, password) {
+                $.ajax({
+                    url: 'php/login.php',
+                    type: 'POST',
+                    data: { username: username, password: password },
+                    success: function (response) {
+                        if (response === "success") {
+                            alert("Usuario logeado correctamente");
+                            window.location.href = "index.html#home";
+                            location.reload();
+                        } else {
+                            alert("Datos inválidos");
+                        }
+                    },
+                    error: function () {
+                        console.log('Error al intentar iniciar sesión');
+                    }
+                });
+            }
+
+            // Función para iniciar sesión utilizando el localStorage
+            function iniciarSesionLocalStorage(username, password) {
+                // Obtener la lista de usuarios del localStorage
+                var users = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Buscar el usuario en la lista
+                var user = users.find(function (user) {
+                    return user.username === username && user.password === password;
+                });
+
+                if (user) {
+                    // Usuario autenticado correctamente
+                    alert('Inicio de sesión exitoso');
+                    // Guardar el usuario actual en el localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    // Mostrar el mensaje de sesión activa en consola
+                    console.log('Sesión con localStorage:', user.username);
+                    // Redirigir a la página principal después del inicio de sesión
+                    window.location.href = 'index.html#home';
+                    location.reload();
+                } else {
+                    // Credenciales incorrectas
+                    alert('Credenciales incorrectas. Por favor, intenta de nuevo.');
+                }
+            }
+
+            // Manejar el evento de submit del formulario de inicio de sesión
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
+                var username = $('#t-username').val();
+                var password = $('#t-password').val();
+
+                // Iniciar sesión utilizando AJAX
+                iniciarSesionAJAX(username, password);
+
+                // Iniciar sesión utilizando el localStorage
+                iniciarSesionLocalStorage(username, password);
+            });
+        });
+
+    </script>
+    
+    <script>
+        // Función para cerrar la sesión utilizando AJAX
+        function cerrarSesionAJAX() {
+            $.ajax({
+                url: 'php/logout.php',
+                type: 'GET',
+                success: function (response) {
+                    location.reload();
+                    setTimeout(function () {
+                        window.location.href = "index.html#login";
+                    }, 1000);
+                },
+                error: function () {
+                    console.log('Error al cerrar sesión');
+                }
+            });
+        }
+
+        // Función para cerrar la sesión utilizando el localStorage
+        function cerrarSesionLocalStorage() {
+            // Limpiar el usuario actual del localStorage
+            localStorage.removeItem('currentUser');
+            // Redirigir a la página de inicio de sesión
+            window.location.href = 'index.html#login';
+            // Recargar la página
+            location.reload();
+        }
+
+        // Función para cerrar la sesión, llamando a ambas funciones secuencialmente
+        function cerrarSesion() {
+            cerrarSesionAJAX();
+            cerrarSesionLocalStorage();
+        }
+
+    </script>
+    
+    
+    <script>
+        $(document).ready(function () {
+            // Delegación de eventos para el botón editar
+            $('#libros').on('click', '.libro .edit', function () {
+                var titulo_actual = $(this).parent().find("h3").text();
+                var autor_actual = $(this).parent().find("h4").text();
+                var sinopsis_actual = $(this).parent().find("p").text();
+                var id_libro = $(this).closest('.libro').attr('id'); // Obtener el ID del libro
+
+                console.log("Datos del libro seleccionado:");
+                console.log("ID del libro:", id_libro);
+                console.log("Título:", titulo_actual);
+                console.log("Autor:", autor_actual);
+                console.log("Sinopsis:", sinopsis_actual);
+
+                $('#modifica_titulo').val(titulo_actual);
+                $('#modifica_autor').val(autor_actual);
+                $('#modifica_sinopsis').val(sinopsis_actual);
+                $('#modificar').attr('data-id', id_libro); // Agregar el ID del libro al formulario de modificación
+                $(this).parent().attr("data-modificando", "este");
+                $.mobile.navigate('#modificar');
+            });
+
+
+
+
+            // Delegación de eventos para el botón eliminar
+            $('#libros').on('click', '.libro .delete', function () {
+                var eliminar_libro = confirm("¿Estás seguro que quieres eliminar el libro?");
+                if (eliminar_libro) {
+                    $(this).closest('.libro').remove(); // Utiliza closest para encontrar el contenedor del libro
+                    // Guardar los libros actualizados en el almacenamiento local
+                    guardarLibros();
+                }
+            });
+
+            $(document).ready(function () {
+                $('#agregarForm').submit(function (e) {
+                    e.preventDefault();
+                    var formData = new FormData(this);
+                    $.ajax({
+                        url: 'php/save_book.php',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if (response === "success") {
+                                alert("Libro creado exitosamente");
+
+                                // Guardar en el localStorage
+                                guardarEnLocalStorage();
+
+                                // Redirigir a la página de inicio
+                                location.reload();
+                                window.location.href = 'index.html#home';
+                            } else {
+                                alert("Error: " + response);
+                            }
+                        },
+                        error: function () {
+                            console.log('Error al agregar el libro');
+                        }
+                    });
+                });
+
+                // Función para guardar el libro en el localStorage
+                function guardarEnLocalStorage() {
+                    var titulo = $('#titulo').val();
+                    var autor = $('#autor').val();
+                    var sinopsis = $('#sinopsis').val();
+
+                    // Obtener el usuario actual del almacenamiento local
+                    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+                    if (!currentUser) {
+                        console.error('No se ha iniciado sesión');
+                        return false; // Salir de la función si no hay usuario actual
+                    }
+
+                    // Generar un id_libro único usando el timestamp actual en milisegundos
+                    var id_libro = 'libro_' + Date.now();
+
+                    // Crear un objeto de libro con la información necesaria
+                    var nuevoLibro = {
+                        id_libro: id_libro,
+                        titulo: titulo,
+                        autor: autor,
+                        sinopsis: sinopsis,
+                        usuario: currentUser.username
+                    };
+
+                    // Obtener los libros actuales del almacenamiento local
+                    var librosActuales = JSON.parse(localStorage.getItem("libros")) || [];
+
+                    // Agregar el nuevo libro a la lista de libros actuales
+                    librosActuales.push(nuevoLibro);
+
+                    // Guardar los libros actualizados en el almacenamiento local
+                    localStorage.setItem("libros", JSON.stringify(librosActuales));
+
+                    // Restablecer los campos del formulario
+                    $('#titulo').val('');
+                    $('#autor').val('');
+                    $('#sinopsis').val('');
+                }
+            });
+
+            $(document).ready(function () {
+                $('#modificarForm').submit(function (e) {
+                    e.preventDefault();
+                    var idLibro = $('#id_libro').val();
+                    var titulo = $('#modifica_titulo').val();
+                    var autor = $('#modifica_autor').val();
+                    var sinopsis = $('#modifica_sinopsis').val();
+                    $.ajax({
+                        url: 'php/update_book.php',
+                        type: 'POST',
+                        data: { id_libro: idLibro, titulo: titulo, autor: autor, sinopsis: sinopsis },
+                        success: function (response) {
+                            if (response === "success") {
+                                alert("El libro se actualizó correctamente");
+                                window.location.href = 'index.html#home';
+                            } else {
+                                alert("Error al actualizar el libro: " + response);
+                            }
+                        },
+                        error: function () {
+                            console.log('Error al enviar datos de edición del libro');
+                        }
+                    });
+                });
+            });
+
+            function cargarDetallesLibro(id_libro, titulo, autor, sinopsis) {
+                $("#id_libro").val(id_libro);
+                $("#modifica_titulo").val(titulo);
+                $("#modifica_autor").val(autor);
+                $("#modifica_sinopsis").val(sinopsis);
+            }
+
+            $(document).on("click", ".edit", function () {
+                var libroID = $(this).closest(".libro").data("id");
+                var titulo = $(this).closest(".libro").find("h3").text();
+                var autor = $(this).closest(".libro").find("h4").text();
+                var sinopsis = $(this).closest(".libro").find("p").text();
+                cargarDetallesLibro(libroID, titulo, autor, sinopsis);
+                $.mobile.navigate("#modificar");
+            });
+
+            // Restablecer los campos del formulario al mostrar la página "agregar"
+            $(document).on("pagebeforeshow", "#agregar", function () {
+                $('#titulo').val('');
+                $('#autor').val('');
+                $('#sinopsis').val('');
+            });
+
+            $(document).ready(function () {
+                // Función para cargar los libros desde el servidor si la base de datos no está disponible
+                function cargarLibrosDesdeServidorSiNoDisponible() {
+                    $.ajax({
+                        type: "GET",
+                        url: "php/get_books.php",
+                        dataType: "json",
+                        data: { username: localStorage.getItem("loggedUser") },
+                        success: function (response) {
+                            if (response && response.length > 0) {
+                                $('#libros').empty();
+                                response.forEach(function (libro) {
+                                    var libroHTML = '';
+                                    if (libro.titulo && libro.autor && libro.sinopsis && libro.username && libro.id_libro) {
+                                        libroHTML = '<div class="libro" data-id="' + libro.id_libro + '">' +
+                                            '<img src="' + libro.portada + '" alt="Portada del libro" class="portada img-fluid">' +
+                                            '<div class="contenido">' +
+                                            '<h3>' + libro.titulo + '</h3>' +
+                                            '<h4>' + libro.autor + '</h4>' +
+                                            '<p>' + libro.sinopsis + '</p>' +
+                                            '</div>' +
+                                            '<div class="acciones">' +
+                                            '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>' +
+                                            '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
+                                            '</div>' +
+                                            '</div>';
+                                    }
+                                    $('#libros').append(libroHTML);
+                                });
+                            } else {
+                                $('#libros').text("No hay libros disponibles para este usuario.");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error al cargar libros desde el servidor:", error);
+                            // Si hay un error al cargar desde el servidor, cargar desde el localStorage
+                            cargarLibrosDesdeLocalStorage();
+                        }
+                    });
+                }
+
+                // Función para cargar los libros desde el localStorage
+                function cargarLibrosDesdeLocalStorage() {
+                    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+                    if (currentUser) {
+                        var recuperados_json = localStorage.getItem("libros");
+
+                        if (recuperados_json) {
+                            var recuperados_array = JSON.parse(recuperados_json);
+                            $.each(recuperados_array, function (indice, libro) {
+                                var libroHtml =
+                                    '<div class="libro" id="' + libro.id_libro + '">' +
+                                    '<img src="app/img/libro-pata.png" class="portada" alt="Portada del libro">' +
+                                    '<a href="#" class="edit" data-id="' + libro.id_libro + '"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>' +
+                                    '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
+                                    '<div class="contenido">' +
+                                    '<h3>' + libro.titulo + '</h3>' +
+                                    '<h4>' + libro.autor + '</h4>' +
+                                    '<p>' + libro.sinopsis + '</p>' +
+                                    '</div>' +
+                                    '</div>';
+
+                                // Mostrar el libro en la lista de libros si pertenece al usuario actual
+                                if (libro.usuario === currentUser.username) {
+                                    $('#libros').append(libroHtml);
+                                }
+                            });
+                        }
+                    } else {
+                        console.error('No se ha iniciado sesión');
+                    }
+                }
+
+                // Llamar a la función para cargar libros desde el servidor si no está disponible
+                cargarLibrosDesdeServidorSiNoDisponible();
+            });
+
+            // Evento de clic en el botón de editar un libro
+            $(document).on("click", ".edit", function () {
+                var libroID = $(this).closest(".libro").data("id");
+                var titulo = $(this).closest(".libro").find("h3").text();
+                var autor = $(this).closest(".libro").find("h4").text();
+                var sinopsis = $(this).closest(".libro").find("p").text();
+
+                console.log("ID del libro:", libroID);
+                console.log("Título:", titulo);
+                console.log("Autor:", autor);
+                console.log("Sinopsis:", sinopsis);
+
+                // Verificar si el libro proviene de la base de datos o del localStorage
+                var fuente = $(this).closest(".libro").attr("data-fuente");
+
+                // Cargar los detalles del libro en el formulario de modificación
+                cargarDetallesLibro(libroID, titulo, autor, sinopsis, fuente);
+
+                // Navegar a la página de modificación
+                $.mobile.navigate("#modificar");
+            });
+
+            function cargarDetallesLibro(id_libro, titulo, autor, sinopsis) {
+                $("#id_libro").val(id_libro);
+                $("#modifica_titulo").val(titulo);
+                $("#modifica_autor").val(autor);
+                $("#modifica_sinopsis").val(sinopsis);
+            }
+
+
+            // Función para guardar los libros en el almacenamiento local
+            function guardarLibros() {
+                var libros_actuales = [];
+
+                $('#libros .libro').each(function () {
+                    var titulo = $(this).find('h3').text();
+                    var autor = $(this).find('h4').text();
+                    var sinopsis = $(this).find('p').text();
+                    var usuario = $(this).attr('data-usuario');
+
+                    libros_actuales.push({
+                        titulo: titulo,
+                        autor: autor,
+                        sinopsis: sinopsis,
+                        usuario: usuario
+                    });
+                });
+
+                var actuales_json = JSON.stringify(libros_actuales);
+                localStorage.setItem("libros", actuales_json);
+            }
+        });
+            </script>
+            
+            
+            <!-- scripts Base de datos -->
+            <!-- <script>
+                                                                                                                                                                                        $(document).ready(function () {
         $.ajax({
             url: 'php/check_session.php',
             type: 'GET',
-            dataType: 'json', // Especificar el tipo de datos esperado
+            dataType: 'json',
             success: function (response) {
-                // Verificar el estado de la sesión
                 console.log(response);
                 if (response.status === "logged_in") {
-                    // Si la sesión está iniciada, redirigir a la página principal con la sesión iniciada
                     window.location.href = "index.html#home";
                 } else {
-                    // Si la sesión no está iniciada, redirigir a la página de inic                              
                     window.location.href = "index.html#login";
                 }
             },
@@ -236,30 +761,20 @@
     });
 </script>
 <script>
-        // Manejar el evento de envío del formulario de login
-        $('#loginForm').submit(function (e) {
-            // Prevenir el envío del formulario por defecto
-            e.preventDefault();
-
-        // Obtener los valores del formulario
+    $('#loginForm').submit(function (e) {
+        e.preventDefault();
         var username = $('#t-username').val();
         var password = $('#t-password').val();
-
-        // Hacer la petición AJAX al archivo PHP para verificar los datos de login
         $.ajax({
             url: 'php/login.php',
             type: 'POST',
             data: { username: username, password: password },
             success: function (response) {
-                // Verificar la respuesta del servidor
                 if (response === "success") {
-                    // Si los datos de login son correctos, mostrar alerta de usuario logeado correctamente
                     alert("Usuario logeado correctamente");
-                    // Redirigir a la página principal con la sesión iniciada
                     window.location.href = "index.html#home";
                     location.reload();
                 } else {
-                    // Si los datos de login son incorrectos, mostrar alerta de datos inválidos
                     alert("Datos inválidos");
                 }
             },
@@ -269,22 +784,15 @@
         });
     });
 
-        $(document).ready(function () {
-            // Manejar el evento de envío del formulario
-            $('#registerForm').submit(function (e) {
-                // Prevenir el envío del formulario por defecto
-                e.preventDefault();
-
-            // Hacer la petición AJAX al archivo PHP
+    $(document).ready(function () {
+        $('#registerForm').submit(function (e) {
+            e.preventDefault();
             $.ajax({
                 url: 'php/registro_usuario.php',
                 type: 'POST',
-                data: $(this).serialize(), // Serializar el formulario
+                data: $(this).serialize(),
                 success: function (response) {
-                    // Mostrar una alerta con el mensaje recibido
                     alert(response);
-
-                    // Redirigir a la página principal si el registro fue exitoso
                     if (response === "¡Registro exitoso!") {
                         window.location.href = "index.html#home";
                         location.reload();
@@ -299,34 +807,25 @@
 </script>
 <script>
     $(document).ready(function () {
-        // Manejar el evento de envío del formulario de agregar libro
         $('#agregarForm').submit(function (e) {
-            // Prevenir el envío del formulario por defecto
             e.preventDefault();
-
-            // Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
             var formData = new FormData(this);
-
-            // Hacer la petición AJAX al archivo PHP para agregar el libro
             $.ajax({
                 url: 'php/save_book.php',
                 type: 'POST',
                 data: formData,
-                processData: false, // Indicar a jQuery que no procese los datos
-                contentType: false, // Indicar a jQuery que no configure el tipo de contenido
+                processData: false,
+                contentType: false,
                 success: function (response) {
-                    // Mostrar una alerta con el mensaje recibido
                     if (response === "success") {
                         alert("Libro creado exitosamente");
-                        // Redireccionar a index.html#home
                         window.location.href = 'index.html#home';
-                        // Limpiar los campos del formulario
                         $('#titulo').val('');
                         $('#autor').val('');
                         $('#sinopsis').val('');
                         $('#portada').val('');
                     } else {
-                        alert("Error: " + response); // Mostrar el mensaje de error recibido del servidor
+                        alert("Error: " + response);
                     }
                 },
                 error: function () {
@@ -335,40 +834,35 @@
             });
         });
     });
-                </script>
+</script>
 <script>
     $(document).ready(function () {
-        // Evento que se dispara antes de mostrar la página #home
         $(document).on("pagecontainerbeforeshow", function (event, ui) {
             var pagina = ui.toPage[0].id;
             if (pagina === "home") {
-                cargarLibrosDesdeServidor(); // Llama a la función para cargar los libros desde el servidor
+                cargarLibrosDesdeServidor();
             }
         });
 
-        // Función para cargar libros desde el servidor
         function cargarLibrosDesdeServidor() {
             $.ajax({
                 type: "GET",
-                url: "php/get_books.php", // Ruta al script PHP que obtiene los libros de la base de datos
+                url: "php/get_books.php",
                 dataType: "json",
-                data: { username: localStorage.getItem("loggedUser") }, // Envía el nombre de usuario del usuario actual al servidor
+                data: { username: localStorage.getItem("loggedUser") },
                 success: function (response) {
-                    // Manejar la respuesta del servidor y mostrar los libros en la página
                     if (response && response.length > 0) {
-                        // Limpiar libros existentes
                         $('#libros').empty();
-                        // Agregar libros al DOM
                         response.forEach(function (libro) {
                             var libroHTML = '';
                             if (libro.titulo && libro.autor && libro.sinopsis && libro.username && libro.id_libro) {
                                 libroHTML = '<div class="libro" data-id="' + libro.id_libro + '">' +
                                     '<img src="' + libro.portada + '" alt="Portada del libro" class="portada img-fluid">' +
-                                    '<div class="contenido">' + // Div para el contenido del libro
+                                    '<div class="contenido">' +
                                     '<h3>' + libro.titulo + '</h3>' +
                                     '<h4>' + libro.autor + '</h4>' +
                                     '<p>' + libro.sinopsis + '</p>' +
-                                    '</div>' + // Cierre de contenido
+                                    '</div>' +
                                     '<div class="acciones">' +
                                     '<a href="#" class="edit"><img src="app/jqm/images/icons-png/edit-white.png" alt="editar"></a>' +
                                     '<a href="#" class="delete"><img src="app/jqm/images/icons-png/delete-white.png" alt="eliminar"></a>' +
@@ -377,38 +871,26 @@
                             }
                             $('#libros').append(libroHTML);
                         });
-
-
                     } else {
-                        // Manejar el caso de que no haya libros en la base de datos
                         $('#libros').text("No hay libros disponibles para este usuario.");
                     }
                 },
                 error: function (xhr, status, error) {
-                    // Manejar errores de la solicitud AJAX
                     console.error("Error al cargar libros desde el servidor:", error);
                 }
             });
         }
     });
 
-
-    // Agregar evento de clic al botón de eliminar
     $(document).on("click", ".delete", function () {
-        // Obtener el ID del libro que se va a eliminar
         var libroID = $(this).closest(".libro").data("id");
-
-        // Confirmar si el usuario realmente desea eliminar el libro
         if (confirm("¿Estás seguro de que quieres eliminar este libro?")) {
-            // Realizar la petición AJAX para eliminar el libro
             $.ajax({
                 url: 'php/delete_book.php',
                 type: 'POST',
-                data: { id_libro: libroID }, // Enviar el ID del libro al servidor
+                data: { id_libro: libroID },
                 success: function (response) {
-                    // Manejar la respuesta del servidor
                     if (response === "success") {
-                        // Si el libro se eliminó correctamente, recargar la página
                         location.reload();
                         alert("El libro se eliminó correctamente");
                     } else {
@@ -421,31 +903,22 @@
             });
         }
     });
-                </script>
-
+</script>
 <script>
     $(document).ready(function () {
-        // Manejar el envío del formulario de edición
         $('#modificarForm').submit(function (e) {
-            // Prevenir el envío del formulario por defecto
             e.preventDefault();
-
-            // Obtener los datos del formulario
             var idLibro = $('#id_libro').val();
             var titulo = $('#modifica_titulo').val();
             var autor = $('#modifica_autor').val();
             var sinopsis = $('#modifica_sinopsis').val();
-
-            // Hacer la petición AJAX para actualizar el libro
             $.ajax({
                 url: 'php/update_book.php',
                 type: 'POST',
                 data: { id_libro: idLibro, titulo: titulo, autor: autor, sinopsis: sinopsis },
                 success: function (response) {
-                    // Mostrar una alerta con el mensaje recibido
                     if (response === "success") {
                         alert("El libro se actualizó correctamente");
-                        // Redirigir a la página principal después de la actualización
                         window.location.href = 'index.html#home';
                     } else {
                         alert("Error al actualizar el libro: " + response);
@@ -458,39 +931,29 @@
         });
     });
 
-        // Definir la función para cargar los detalles del libro en el formulario de edición
-        function cargarDetallesLibro(id_libro, titulo, autor, sinopsis) {
-            $("#id_libro").val(id_libro);
-            $("#modifica_titulo").val(titulo);
-            $("#modifica_autor").val(autor);
-            $("#modifica_sinopsis").val(sinopsis);
+    function cargarDetallesLibro(id_libro, titulo, autor, sinopsis) {
+    $("#id_libro").val(id_libro);
+    $("#modifica_titulo").val(titulo);
+    $("#modifica_autor").val(autor);
+    $("#modifica_sinopsis").val(sinopsis);
     }
 
-        // Evento de clic para el enlace de edición
-        $(document).on("click", ".edit", function () {
-            var libroID = $(this).closest(".libro").data("id"); // Obtener el ID del libro
-            var titulo = $(this).closest(".libro").find("h3").text(); // Obtener el título del libro
-            var autor = $(this).closest(".libro").find("h4").text(); // Obtener el autor del libro
-            var sinopsis = $(this).closest(".libro").find("p").text(); // Obtener la sinopsis del libro
-
-        // Llamar a la función para cargar los detalles del libro en el formulario de edición
+    $(document).on("click", ".edit", function () {
+        var libroID = $(this).closest(".libro").data("id");
+        var titulo = $(this).closest(".libro").find("h3").text();
+        var autor = $(this).closest(".libro").find("h4").text();
+        var sinopsis = $(this).closest(".libro").find("p").text();
         cargarDetallesLibro(libroID, titulo, autor, sinopsis);
-
-        // Redirigir al formulario de edición
         $.mobile.navigate("#modificar");
     });
 </script>
-
 <script>
     function cerrarSesion() {
-        // Hacer la petición AJAX para cerrar la sesión
         $.ajax({
             url: 'php/logout.php',
             type: 'GET',
             success: function (response) {
-                // Recargar la página actual después de cerrar sesión
                 location.reload();
-                // Después del reload, redirigir a la página de inicio de sesión después de 1 segundo
                 setTimeout(function () {
                     window.location.href = "index.html#login";
                 }, 1000);
@@ -499,35 +962,33 @@
                 console.log('Error al cerrar sesión');
             }
         });
-                }
-            </script>
+    }
+    </script>-->
+    <script>
+                                                                    $('#a').on("click", function () {
+                                                                    $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-b")
+                                                                        .addClass("ui-page-theme-a");
 
-<script>
-    // Event to change theme to "a"
-    $('#a').on("click", function () {
-        cambiarTema("a");
-    });
 
-        // Event to change theme to "b"
+                                                                    localStorage.setItem("tema", "a");
+                                                                });
+
         $('#b').on("click", function () {
-            cambiarTema("b");
+            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a")
+                .addClass("ui-page-theme-b");
+
+            localStorage.setItem("tema", "b");
         });
 
-        // Function to change theme
-        function cambiarTema(tema) {
-            $('#info, .ui-content, main, div[data-role=page]').removeClass("ui-page-theme-a ui-page-theme-b").addClass("ui-page-theme-" + tema);
-            localStorage.setItem("tema", tema);
-        }
-
-        // Event triggered when document is ready to set saved theme
         $(document).on("ready", function () {
             var tema_guardado = localStorage.getItem("tema");
-            if (tema_guardado) {
+            if (tema_guardado != null &&
+                tema_guardado != undefined &&
+                tema_guardado != '') {
                 $('[data-role=page]').addClass("ui-page-theme-" + tema_guardado);
             }
         });
     </script>
-
 
 </body>
 
