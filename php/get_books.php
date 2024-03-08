@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta SQL para obtener los libros del usuario activo
-$sql = "SELECT *, CONCAT('portada_libros/', imagen_portada) AS imagen_portada_url, ruta_portada FROM libros WHERE username = '$loggedUser'";
+$sql = "SELECT * FROM libros WHERE username = '$loggedUser'";
 
 // Ejecutar la consulta
 $result = $conn->query($sql);
@@ -33,11 +33,8 @@ if ($result->num_rows > 0) {
     // Convertir los resultados a un arreglo asociativo
     $books = array();
     while ($row = $result->fetch_assoc()) {
-        // Obtener la ruta de la portada
-        $rutaPortada = $row['ruta_portada'];
-        // Agregar la ruta de la portada al objeto del libro
-        $row['ruta_portada'] = $rutaPortada;
         // Agregar el libro al arreglo
+        $row['portada'] = 'app/img/libro-pata.png'; // Agregar la ruta de la portada
         $books[] = $row;
     }
     // Devolver los libros como JSON
@@ -49,3 +46,4 @@ if ($result->num_rows > 0) {
 
 // Cerrar la conexión
 $conn->close();
+?>
