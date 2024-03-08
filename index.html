@@ -572,6 +572,7 @@
                             if (response === "success") {
                                 alert("El libro se actualizó correctamente");
                                 window.location.href = 'index.html#home';
+                                location.reload();
                             } else {
                                 alert("Error al actualizar el libro: " + response);
                             }
@@ -596,7 +597,6 @@
                 var autor = $(this).closest(".libro").find("h4").text();
                 var sinopsis = $(this).closest(".libro").find("p").text();
                 cargarDetallesLibro(libroID, titulo, autor, sinopsis);
-                $.mobile.navigate("#modificar");
             });
 
             // Restablecer los campos del formulario al mostrar la página "agregar"
@@ -736,6 +736,28 @@
                 localStorage.setItem("libros", actuales_json);
             }
         });
+
+        $(document).on("click", ".delete", function () {
+        var libroID = $(this).closest(".libro").data("id");
+        if (confirm("¿Estás seguro de que quieres eliminar este libro?")) {
+            $.ajax({
+                url: 'php/delete_book.php',
+                type: 'POST',
+                data: { id_libro: libroID },
+                success: function (response) {
+                    if (response === "success") {
+                        location.reload();
+                        alert("El libro se eliminó correctamente");
+                    } else {
+                        alert("Error al eliminar el libro: " + response);
+                    }
+                },
+                error: function () {
+                    console.log('Error al eliminar el libro');
+                }
+            });
+        }
+    });
             </script>
             
             
